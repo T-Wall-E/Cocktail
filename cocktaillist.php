@@ -19,18 +19,18 @@ function getCocktails()
 	$sql = "SELECT *  FROM `cocktails`";
 	$sqlResult = mysql_query($sql);
 	if (!$sqlResult) {
-		die('Ungültige Anfrage: ' . $sql . mysql_error());
+		die('Ungültige Anfrage: ' . $sql . ' - Gesamte Abfrage: '. mysql_error());
 	}
 	
 	$result .= "<table border='1'>";
-	$result .= "<tr>";
+	//$result .= "<tr>";
 	$result .= "<th>";
 	$result .= "Cocktail";
 	$result .= "</th>";
 	$result .= "<th>";
 	$result .= "Verfügbar?";
 	$result .= "</th>";
-	$result .= "</tr>";
+	//$result .= "</tr>";
 	
 	while($row = mysql_fetch_assoc($sqlResult))
 	{

@@ -32,11 +32,11 @@
 		<!-- navigation -->
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
 			<ul class="level-one">
-					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link">Cocktail-Liste</a>
+					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="current">Cocktail-Liste</a>
 						<!-- New submenu level -->			
 					</li>
 
-					<li><a href="/Cocktail/allocation.php" title="Belegung" class="current">Belegung</a>	
+					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
 						<!-- New submenu level -->
 					</li>
 					
@@ -51,9 +51,9 @@
 		<div id="main" role="main" class="clearfix"><!-- #main start -->
 			<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting"><!-- .post start -->
 				<header><!-- header start -->
-					<h2 class="page-title" itemprop="headline">Ventil-Belegung</h2>
+					<h2 class="page-title" itemprop="headline">Cocktail-Liste</h2>
 				</header><!-- header end -->
-				<?php include_once "alloc.php"?>
+				<?php include_once "cocktaillist.php"?>
 			</article><!-- .post end -->
 
 		</div><!-- #main end -->
