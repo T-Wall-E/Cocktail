@@ -1,89 +1,124 @@
-<?php
-/*
-#	Author: Tobias Wallewein
-#
-#	Übersicht über den gewählten Cocktail
-#	Wenn alle Zutaten verfügbar (s. allocation.php),
-#	dann kann der Prozess zum Erstellen des Cocktails gestartet werden.
-*/
-
-include_once "dbCon.php";
-include_once "functions.php";
-
-// ########### Function ##################
-
-function getCocktail($id)
-{
-	$result = "";
-	
-	$sqlCocktail = "SELECT *  FROM `cocktails` WHERE `ID` = " . $id;
-	$sqlCocktailResult = mysql_query($sqlCocktail);
-	if (!$sqlCocktailResult) {
-		die('Ungültige Anfrage: ' . $sqlCocktail . mysql_error());
-	}
-	
-	$row = mysql_fetch_assoc($sqlCocktailResult);
-	$result .= "<h1>" . $row['Name'] . "</h1>";
-	$result .= "<img src=". $row['ImageURL']. " alt=" . $row['ImageURL'] . " />";
-	$result .= "<h2>" . $row['Description'] . "</h2>";
-	
-	$sqlReceipe = "SELECT ingredients.name as Ingredient, units.name as Unit, units.token as UnitToken, amount "
-							. "FROM Recipes "
-							. "INNER JOIN cocktails "
-							. "ON cocktails.ID = Recipes.CID "
-							. "INNER JOIN ingredients "
-							. "ON ingredients.ID = Recipes.IID "
-							. "INNER JOIN units "
-							. "ON ingredients.UID = units.ID "
-							. "WHERE cocktails.id = " . $id;
-
-	$sqlReceipeResult = mysql_query($sqlReceipe);
-	if (!$sqlReceipeResult) {
-		die('Ungültige Anfrage: ' . $sqlReceipe . mysql_error());
-	}
-							
-	$result .= "<h3>Zutaten</h3>";
-	$result .= "<ul>";
-	while($row = mysql_fetch_assoc($sqlReceipeResult))
-	{
-		$result .= "<li>";
-		$result .= $row['Ingredient'] . " " . $row['amount'] . $row['UnitToken'];
-		$result .= "</li>";
-	}
-	$result .= "</ul>";
-		
-	echo $result;
-}
-
-// ########### End of Function ###########
+<?php 
+	$title = "Cocktail-Liste";
+	include_once "head.php"
 ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head>
-  <meta http-equiv="content-type" content="text/html; charset=windows-1250">
-  <title>
-	Cocktail
-  </title>
-  <link href="style.css" rel="stylesheet" type="text/css">
-  </head>
-  <body>
-  <?php
-  if(isset($_GET["id"]))
-  {
-	getCocktail(htmlspecialchars($_GET["id"]));
-	if(allIngredientsAvailable($_GET["id"]))
-	{
-		echo "<form action='queue.php' method='post'>";
-		echo "<input type='hidden' name='cocktailID' value='" . $_GET["id"] . "'/>";
-		echo "<input type='submit' value='Mix mir diesen Cocktail!'/>";
-		echo "</form>";
+<body class="clearfix">
+
+	<header role="banner" id="header"><!-- #header start -->
+	
+		<?php include_once "inner_header.php"; ?>
+		
+		<!-- navigation -->
+		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
+			<ul class="level-one">
+					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link">Cocktail-Liste</a>
+						<!-- New submenu level -->			
+						<a href="/Cocktail/cocktail.php" title="Belegung" class="current">Cocktail</a>
+					</li>
+
+					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
+						<!-- New submenu level -->
+					</li>
+					
+					<li><a href="/Cocktail/user.php" title="Dein Profil" class="link">Dein Profil</a>	
+						<!-- New submenu level -->
+					</li>
+			</ul>
+		</nav><!-- #navigation end -->
+	</header><!-- #header end -->
+	
+	<div id="content" class="clearfix"><!-- #content start -->
+		<div id="main" role="main" class="clearfix"><!-- #main start -->
+			<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting"><!-- .post start -->
+				<header><!-- header start -->
+					<h2 class="page-title" itemprop="headline">Cocktail</h2>
+				</header><!-- header end -->
+				<?php include_once "cocktailmodel.php"?>
+			</article><!-- .post end -->
+
+		</div><!-- #main end -->
+	</div><!-- .content end -->
+	
+	<?php include_once "footer.php" ?>
+	
+	<!-- Scripts -->
+	<script src="sunrise-1.0.0/js/plugins.js"></script>
+	<script src="sunrise-1.0.0/js/script.js"></script>
+	<script src="sunrise-1.0.0/js/mylibs/helper.js"></script>
+	
+	<!--[if (lt IE 9) & (!IEMobile)]>
+	<script src="sunrise-1.0.0/js/libs/imgsizer.js"></script>
+	<![endif]-->
+	
+	<script>
+	// iOS scale bug fix
+	MBP.scaleFix();
+	
+	// Respond.js
+	yepnope({
+		test : Modernizr.mq('(only all)'),
+		nope : ['sunrise-1.0.0/js/libs/respond.min.js']
+	});
+	</script>
+<script>	
+Behaviour.register({
+	'#SearchForm_SearchForm': {
+		validate : function(fromAnOnBlur) {
+			initialiseForm(this, fromAnOnBlur);
+			
+
+			var error = hasHadFormError();
+			if(!error && fromAnOnBlur) clearErrorMessage(fromAnOnBlur);
+			if(error && !fromAnOnBlur) focusOnFirstErroredField();
+			
+			return !error;
+		},
+		onsubmit : function() {
+			if(typeof this.bypassValidation == 'undefined' || !this.bypassValidation) return this.validate();
+		}
+	},
+	'#SearchForm_SearchForm input' : {
+		initialise: function() {
+			if(!this.old_onblur) this.old_onblur = function() { return true; } 
+			if(!this.old_onfocus) this.old_onfocus = function() { return true; } 
+		},
+		onblur : function() {
+			if(this.old_onblur()) {
+				// Don't perform instant validation for CalendarDateField fields; it creates usability wierdness.
+				if(this.parentNode.className.indexOf('calendardate') == -1 || this.value) {
+					return $('SearchForm_SearchForm').validate(this);
+				} else {
+					return true;
+				}
+			}
+		}
+	},
+	'#SearchForm_SearchForm textarea' : {
+		initialise: function() {
+			if(!this.old_onblur) this.old_onblur = function() { return true; } 
+			if(!this.old_onfocus) this.old_onfocus = function() { return true; } 
+		},
+		onblur : function() {
+			if(this.old_onblur()) {
+				return $('SearchForm_SearchForm').validate(this);
+			}
+		}
+	},
+	'#SearchForm_SearchForm select' : {
+		initialise: function() {
+			if(!this.old_onblur) this.old_onblur = function() { return true; } 
+		},
+		onblur : function() {
+			if(this.old_onblur()) {
+				return $('SearchForm_SearchForm').validate(this); 
+			}
+		}
 	}
-  }
-  else
-  {
-	echo "Mit dieser ID existiert kein Cocktail...";
-  }
-  ?>
-  </body>
+});
+
+//]]></script>
+
+</body>
+
 </html>

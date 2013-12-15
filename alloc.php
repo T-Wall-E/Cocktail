@@ -7,7 +7,7 @@ function createTable()
   global $connection;
   
   $result = "";
-  $result .= "<form method=post action='alloc.php'>";
+  $result .= "<form method=post action='allocation.php'>";
   $result .= "<table>";
   $result .= "<thead>";
   $result .= "<th>Ventil</th>
@@ -84,21 +84,6 @@ function checkForUpdates()
 }
 // ######### End of Function ################
 
-checkForUpdates();
+	checkForUpdates();
+	echo createTable();
 ?>
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
-  <head>
-  <meta http-equiv="content-type" content="text/html; charset=windows-1250">
-  <title>
-	CM - Ventil-Belegung
-  </title>
-  <link href="style.css" rel="stylesheet" type="text/css">
-  </head>
-  <body>
-<?php
-  echo createTable();
-?>
-  </body>
-</html>

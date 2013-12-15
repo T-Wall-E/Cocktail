@@ -18,11 +18,11 @@ License: http://creativecommons.org/licenses/MIT/
 -->
 
 <!--[if IEMobile 7]><html class="no-js iem7 oldie"><![endif]-->
-<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="en"><![endif]-->
-<!--[if (IE 7)&!(IEMobile)]><html class="no-js ie7 oldie" lang="en"><![endif]-->
-<!--[if (IE 8)&!(IEMobile)]><html class="no-js ie8 oldie" lang="en"><![endif]-->
-<!--[if gt IE 8]><!--><html class="no-js" lang="en"><!--<![endif]-->
-<!--[if (gte IE 9)|(gt IEMobile 7)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<!--[if lt IE 7]><html class="no-js ie6 oldie" lang="de"><![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js ie7 oldie" lang="de"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js ie8 oldie" lang="de"><![endif]-->
+<!--[if gt IE 8]><!--><html class="no-js" lang="de"><!--<![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)]><!--><html class="no-js" lang="de"><!--<![endif]-->
 
 <head>		
 	<title><?php $title ?></title>
@@ -48,7 +48,7 @@ License: http://creativecommons.org/licenses/MIT/
 	<!-- For Nokia -->
 	<link rel="shortcut icon" href="sunrise-1.0.0/img/l/apple-touch-icon.png">
 	<!-- For everything else -->
-	<link rel="shortcut icon" href="sunrise-1.0.0/sunrise/favicon.ico">
+	<link rel="shortcut icon" href="sunrise-1.0.0/favicon.ico">
 	
 	<!--iOS. Delete if not required -->
 	<meta name="apple-mobile-web-app-capable" content="yes">
