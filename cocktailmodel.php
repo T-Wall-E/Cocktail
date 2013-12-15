@@ -63,7 +63,7 @@ function getCocktail($id)
 	if(allIngredientsAvailable($_GET["id"]))
 	{
 		echo "<form action='queue.php' method='post'>";
-		echo "<input type='hidden' name='cocktailID' value='" . $_GET["id"] . "'/>";
+		echo "<input type='hidden' name='cocktailID' value='" . htmlspecialchars($_GET["id"]) . "'/>";
 		echo "<input type='submit' value='Mix mir diesen Cocktail!'/>";
 		echo "</form>";
 	}

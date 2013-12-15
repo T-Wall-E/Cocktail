@@ -13,8 +13,13 @@
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
 			<ul class="level-one">
 					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link">Cocktail-Liste</a>
-						<!-- New submenu level -->			
-						<a href="/Cocktail/cocktail.php" title="Belegung" class="current">Cocktail</a>
+						<!-- New submenu level -->
+							<?php
+							if(isset($_GET["id"]))
+							{
+								echo "<a href='/Cocktail/cocktail.php?id=" . htmlspecialchars($_GET["id"]) . "' title='Belegung' class='current'>Cocktail</a>";
+							}
+						?>
 					</li>
 
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
