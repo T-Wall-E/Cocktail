@@ -1,4 +1,5 @@
 <?php 
+	session_start();
 	$title = "Cocktail-Liste";
 	include_once "head.php"
 ?>
@@ -53,7 +54,16 @@
 				<header><!-- header start -->
 					<h2 class="page-title" itemprop="headline">Cocktail-Liste</h2>
 				</header><!-- header end -->
-				<?php include_once "cocktaillist.php"?>
+				<?php 
+					if (isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "")
+					{
+						include_once "cocktaillist.php";
+					}
+					else
+					{
+						include_once "login.php";
+					}
+				?>
 			</article><!-- .post end -->
 
 		</div><!-- #main end -->
