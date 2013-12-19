@@ -96,6 +96,7 @@ td {
   line-height: 1;
   font-family: inherit;
 }
+
 article,
 aside,
 details,
@@ -413,6 +414,56 @@ form {
   -moz-box-shadow: 0 1px 0 #ffffff;
   box-shadow: 0 1px 0 #ffffff;
 }
+
+/*
+EDIT by TW
+*/
+#logoutDiv
+{
+float:right;
+}
+#logoutForm
+{
+margin: 0;
+  padding: 0;
+  background-color: #ffffff;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0;
+  border-top: solid 0 #dddddd;
+  border-left: solid 0 #dddddd;
+  border-right: solid 0 #dddddd;
+  border-bottom: solid 0 #dddddd;
+  -webkit-box-shadow: 0 0 0 #ffffff;
+  -moz-box-shadow: 0 0 0 #ffffff;
+  box-shadow: 0 0 0 #ffffff;
+}
+#logoutButton
+{
+	padding: 2px;
+	border-top: solid 1px #d83526;
+  border-left: solid 1px #d83526;
+  border-right: solid 1px #d83526;
+  border-bottom: solid 1px #d83526;
+  background: #fe1a00;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #fe1a00), color-stop(1, #ce0100));
+  background: -moz-linear-gradient(center bottom, #fe1a00 0%, #ce0100 100%);
+  -webkit-box-shadow: inset 0 1px 0 rgba(242, 156, 147, 0);
+  -moz-box-shadow: inset 0 1px 0 rgba(242, 156, 147, 0);
+  box-shadow: inset 0 1px 0 rgba(242, 156, 147, 0);
+}
+
+#logoutButton:hover {
+  color: #ffffff;
+  background: #ce0100;
+  background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #ce0100), color-stop(1, #fe1a00));
+  background: -moz-linear-gradient(center bottom, #ce0100 0%, #fe1a00 100%);
+}
+
+/*
+End of EDIT by TW
+*/
+
 fieldset {
   margin-bottom: 0.75em;
   padding: 0;

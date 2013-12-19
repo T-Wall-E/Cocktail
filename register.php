@@ -9,13 +9,13 @@
 
     include_once 'dbCon.php';
     
-    if(isset($_POST['register']))
-    {
-      // SESSION-Variablen um die Eingabe-Felder wieder auszufüllen
+	// SESSION-Variablen um die Eingabe-Felder wieder auszufüllen
       $_SESSION['tmp_user'] = "";
       $_SESSION['tmp_name'] = "";
       $_SESSION['tmp_surname'] = "";
-      
+	  
+    if(isset($_POST['register']))
+    {
       checkForSQLInjectionWithRedirect($_POST['user'], "register.php");
       checkForSQLInjectionWithRedirect($_POST['pw'], "register.php");
   		checkForSQLInjectionWithRedirect($_POST['pw_confirm'], "register.php");
@@ -55,7 +55,7 @@
           $hashedandsaltedPW = md5($_POST['pw'].$salt).'$'.$salt; 
               // use sha1 instead of md5
           
-          if(is_null($_POST['group']))
+          if(!isset($_POST['group']) || is_null($_POST['group']))
             $group = 3;
           else
             $group = $_POST['group'];

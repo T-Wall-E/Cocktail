@@ -1,4 +1,5 @@
-<?php 
+<?php
+	session_start();
 	$title = "Cocktail-Liste";
 	include_once "head.php"
 ?>
@@ -7,7 +8,7 @@
 
 	<header role="banner" id="header"><!-- #header start -->
 	
-		<?php include_once "inner_header.php"; ?>
+		<?php include_once "innerheader.php"; ?>
 		
 		<!-- navigation -->
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->

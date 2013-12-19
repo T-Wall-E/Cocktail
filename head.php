@@ -1,3 +1,10 @@
+<?php
+if (isset($_POST['logout'])) {
+    $_SESSION['user'] = null;
+    session_destroy();
+}
+?>
+
 <!doctype html>
 
 <!-- 
