@@ -39,11 +39,11 @@ function allIngredientsAvailable($cocktailID)
 	$allocation = getAllocation();
 	
 	$sql = "SELECT ingredients.id as Ingredient "
-							. "FROM Recipes "
+							. "FROM recipes "
 							. "INNER JOIN cocktails "
-							. "ON cocktails.ID = Recipes.CID "
+							. "ON cocktails.ID = recipes.CID "
 							. "INNER JOIN ingredients "
-							. "ON ingredients.ID = Recipes.IID "
+							. "ON ingredients.ID = recipes.IID "
 							. "WHERE cocktails.id = " . $cocktailID;
 	$sqlResult = mysql_query($sql);
 	if (!$sqlResult) {
