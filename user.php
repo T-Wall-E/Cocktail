@@ -21,7 +21,7 @@
 		checkForSQLInjectionWithRedirect($_POST['uid'], "user.php?uid=".$_POST['uid']);
 		checkForSQLInjectionWithRedirect($_POST['name'], "user.php?uid=".$_POST['uid']);
 		checkForSQLInjectionWithRedirect($_POST['lastname'], "user.php?uid=".$_POST['uid']);
-		checkForSQLInjectionWithRedirect($_POST['selectedAvaInput'], "user.php?uid=".$_POST['uid']);
+		checkForSQLInjectionWithRedirect($_POST['ava'], "user.php?uid=".$_POST['uid']);
 		checkForSQLInjectionWithRedirect($_POST['gender'], "user.php?uid=".$_POST['uid']);
 		checkForSQLInjectionWithRedirect($_POST['birthdate'], "user.php?uid=".$_POST['uid']);
 		
@@ -45,7 +45,7 @@
 				"SET " .
 				"name='" . $_POST['name'] ."', " .
 				"lastname='" . $_POST['lastname'] ."', " .
-				"ava='" . $_POST['selectedAvaInput'] ."', " .
+				"ava='" . $_POST['ava'] ."', " .
 				"gender='" . $_POST['gender'] ."', " .
 				"birthdate='" . $postBirthdate ."' " .
 				"WHERE id=" . $_POST['uid'];
