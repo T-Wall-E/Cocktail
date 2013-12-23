@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	$title = "Cocktail-Liste";
+	$title = "Cocktail-Details";
 	include_once "head.php"
 ?>
 
@@ -13,14 +13,42 @@
 		<!-- navigation -->
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
 			<ul class="level-one">
-					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link">Cocktail-Liste</a>
+					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link parent">Cocktail-Liste</a>
 						<!-- New submenu level -->
 							<?php
-							if(isset($_GET["id"]))
-							{
-								echo "<a href='/Cocktail/cocktail.php?id=" . htmlspecialchars($_GET["id"]) . "' title='Belegung' class='current'>Cocktail</a>";
-							}
-						?>
+								$ulOpen = false;
+								switch($_SESSION['GID'])
+								{
+									case 1:
+									case 2:
+										if(!$ulOpen)
+										{
+											echo "<ul>";
+											$ulOpen=true;
+										}
+										echo "<li>";
+										echo '<a href="/Cocktail/addCocktail.php" title="Neuer Cocktail" class="link">Neuer Cocktail</a>';
+										echo "</li>";
+										break;		
+								}
+								if(isset($_GET["id"]))
+								{
+									if(!$ulOpen)
+									{
+										echo "<ul>";
+										$ulOpen=true;
+									}
+									echo "<li>";
+									echo "<a href='/Cocktail/cocktail.php?id=" . htmlspecialchars($_GET["id"]) . "' title='Belegung' class='current'>Cocktail</a>";
+									echo "</li>";
+								}
+								
+								if($ulOpen)
+								{
+									echo "</ul>";
+									$ulOpen=true;
+								}
+							?>
 					</li>
 
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
@@ -30,7 +58,7 @@
 					<?php
 					if (isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "" && isset($_SESSION['UID']))
 					{
-						echo "<li><a href='/Cocktail/user.php?uid=" . htmlspecialchars($_SESSION['UID']) . "' title='Dein Profil' class='link'>Dein Profil</a>";
+						echo "<li><a href='/Cocktail/user.php?uid=" . htmlspecialchars($_SESSION['UID']) . "' title='Dein Profil' class='link parent'>Dein Profil</a>";
 						echo "</li>";
 					}
 					?>
@@ -44,91 +72,21 @@
 				<header><!-- header start -->
 					<h2 class="page-title" itemprop="headline">Cocktail</h2>
 				</header><!-- header end -->
-				<?php include_once "cocktailmodel.php"?>
+				<?php 
+					if(isset($_SESSION['error']) && $_SESSION['error'] != null && $_SESSION['error'] != "")
+					{
+						echo "<div class='error'>" . $_SESSION['error'] . "</div>";
+						unset($_SESSION['error']);
+					}
+				
+					include_once "cocktailmodel.php";
+				?>
 			</article><!-- .post end -->
 
 		</div><!-- #main end -->
 	</div><!-- .content end -->
 	
 	<?php include_once "footer.php" ?>
-	
-	<!-- Scripts -->
-	<script src="sunrise-1.0.0/js/plugins.js"></script>
-	<script src="sunrise-1.0.0/js/script.js"></script>
-	<script src="sunrise-1.0.0/js/mylibs/helper.js"></script>
-	
-	<!--[if (lt IE 9) & (!IEMobile)]>
-	<script src="sunrise-1.0.0/js/libs/imgsizer.js"></script>
-	<![endif]-->
-	
-	<script>
-	// iOS scale bug fix
-	MBP.scaleFix();
-	
-	// Respond.js
-	yepnope({
-		test : Modernizr.mq('(only all)'),
-		nope : ['sunrise-1.0.0/js/libs/respond.min.js']
-	});
-	</script>
-<script>	
-Behaviour.register({
-	'#SearchForm_SearchForm': {
-		validate : function(fromAnOnBlur) {
-			initialiseForm(this, fromAnOnBlur);
-			
-
-			var error = hasHadFormError();
-			if(!error && fromAnOnBlur) clearErrorMessage(fromAnOnBlur);
-			if(error && !fromAnOnBlur) focusOnFirstErroredField();
-			
-			return !error;
-		},
-		onsubmit : function() {
-			if(typeof this.bypassValidation == 'undefined' || !this.bypassValidation) return this.validate();
-		}
-	},
-	'#SearchForm_SearchForm input' : {
-		initialise: function() {
-			if(!this.old_onblur) this.old_onblur = function() { return true; } 
-			if(!this.old_onfocus) this.old_onfocus = function() { return true; } 
-		},
-		onblur : function() {
-			if(this.old_onblur()) {
-				// Don't perform instant validation for CalendarDateField fields; it creates usability wierdness.
-				if(this.parentNode.className.indexOf('calendardate') == -1 || this.value) {
-					return $('SearchForm_SearchForm').validate(this);
-				} else {
-					return true;
-				}
-			}
-		}
-	},
-	'#SearchForm_SearchForm textarea' : {
-		initialise: function() {
-			if(!this.old_onblur) this.old_onblur = function() { return true; } 
-			if(!this.old_onfocus) this.old_onfocus = function() { return true; } 
-		},
-		onblur : function() {
-			if(this.old_onblur()) {
-				return $('SearchForm_SearchForm').validate(this);
-			}
-		}
-	},
-	'#SearchForm_SearchForm select' : {
-		initialise: function() {
-			if(!this.old_onblur) this.old_onblur = function() { return true; } 
-		},
-		onblur : function() {
-			if(this.old_onblur()) {
-				return $('SearchForm_SearchForm').validate(this); 
-			}
-		}
-	}
-});
-
-//]]></script>
-
 </body>
 
 </html>

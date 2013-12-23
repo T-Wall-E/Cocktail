@@ -24,4 +24,5 @@
 	<!-- Site tagline -->
 	<p>Lass dir deinen Cocktail mixen!</p>
 		
+		<?php //echo var_dump($_SESSION);?>
 </div><!-- #inner-header end -->

@@ -25,16 +25,29 @@ function createTable()
   
   $i = 0;
   while ($row = mysql_fetch_array($resultset)) {
-      $result .= ($i % 2 == 0 ? "<tr>" : "<tr class='odd'>");
-      $result .= ("<td>#" . $row["valve"] ."</td>");
-      $result .= ("<td>" . getComboBox($row["ID"], $row["valve"]) . "</td>");
-      $result .= ("<tr>");
+      $result .= "<tr>";
+      $result .= "<td>#" . $row["valve"] ."</td>";
+      $result .= "<td>";
+	  switch($_SESSION['GID'])
+	  {
+		case 1:
+		case 2:
+			$result .= getComboBox($row["ID"], $row["valve"]);
+			break;
+		default:
+			$result .= getIngredient($row["valve"]);		
+	  }
+	 
+	  $result .= "</td>";
+      $result .= "</tr>";
       $i++;
   } //$row = mysql_fetch_array($resultset)
     
   $result .= "</table>";
-  $result .= "<input class='buttonedit' type='submit' name='updateAllocation' 
-         value='&Auml;nderungen &uuml;bernehmen'>";
+  if($_SESSION['GID'] == 1)
+  {
+	$result .= "<input class='buttonedit' type='submit' name='updateAllocation' value='&Auml;nderungen &uuml;bernehmen'>";
+  }
   $result .= "</form>";
   
   return $result;
@@ -61,6 +74,32 @@ function getComboBox($selectedID, $valve)
     $result .= ">" . $row['name'] . "</option>";
   }
   $result .=  "</select>";
+  return $result;
+}
+
+function getIngredient($valve)
+{
+  global $connection;
+  $sql = "SELECT i.name " .
+		"FROM allocation a " .
+		"JOIN ingredients i " .
+		"ON a.ingredient = i.id " .
+		"WHERE a.valve = " . $valve . " " . 
+		"LIMIT 1";
+  $sqlresult = mysql_query($sql, $connection);
+  if (!$sqlresult)
+  {
+     $message  = 'Ungültige Abfrage: ' . mysql_error() . "\n";
+     $message .= 'Gesamte Abfrage: ' . $sql;
+     die($message);
+  }
+
+  $result = "";
+  while ($row = mysql_fetch_array($sqlresult))
+  {
+    $result .= $row['name'];
+  }
+  
   return $result;
 }
 

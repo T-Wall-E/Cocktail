@@ -69,7 +69,7 @@
 		<!-- navigation -->
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
 			<ul class="level-one">
-					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link">Cocktail-Liste</a>
+					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link parent">Cocktail-Liste</a>
 						<!-- New submenu level -->			
 					</li>
 
@@ -77,7 +77,7 @@
 						<!-- New submenu level -->
 					</li>
 					
-					<li><a href="/Cocktail/user.php" title="Dein Profil" class="link">Dein Profil</a>	
+					<li><a href="/Cocktail/user.php" title="Dein Profil" class="link parent">Dein Profil</a>	
 						<!-- New submenu level -->
 					</li>
 			</ul>
