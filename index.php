@@ -23,9 +23,13 @@
 						<!-- New submenu level -->
 					</li>
 					
-					<li><a href="/Cocktail/user.php" title="Dein Profil" class="link">Dein Profil</a>	
-						<!-- New submenu level -->
-					</li>
+					<?php
+					if (isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "" && isset($_SESSION['UID']))
+					{
+						echo "<li><a href='/Cocktail/user.php?uid=" . htmlspecialchars($_SESSION['UID']) . "' title='Dein Profil' class='link'>Dein Profil</a>";
+						echo "</li>";
+					}
+					?>
 			</ul>
 		</nav><!-- #navigation end -->
 	</header><!-- #header end -->
@@ -37,7 +41,7 @@
 					<h2 class="page-title" itemprop="headline">Cocktail-Liste</h2>
 				</header><!-- header end -->
 				<?php 
-					if (isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "")
+					if (isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "" && isset($_SESSION['UID']))
 					{
 						include_once "cocktaillist.php";
 					}
