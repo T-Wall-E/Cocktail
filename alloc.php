@@ -8,7 +8,7 @@ function createTable()
   
   $result = "";
   $result .= "<form method=post action='allocation.php'>";
-  $result .= "<table>";
+  $result .= "<table id='smalltable'>";
   $result .= "<thead>";
   $result .= "<th>Ventil</th>
           <th>Zutat</th>";

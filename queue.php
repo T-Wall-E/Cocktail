@@ -3,7 +3,7 @@
 if(isset($_POST['cocktailID']))
 {
 	echo "In die Warteschlange eintragen: " . $_POST['cocktailID'];
-	$filename = 'test.txt';
+	$filename = date("Ymd-H:i:s").'.txt';
 
 	$entry = date("Ymd-H:i:s") . "\t" . $_POST['cocktailID'] . "\t" . "USER" . "\n";
 

@@ -1,6 +1,22 @@
 <?php
 include_once 'dbCon.php';
 
+function getUser($userId)
+{
+	$sql = "SELECT id, user, name, lastname, user_group, ava, birthdate, gender FROM `users` WHERE id = ".$userId;
+	$sqlResult = mysql_query($sql);
+	if (!$sqlResult) {
+		die('Ungültige Anfrage: ' . $sql . mysql_error());
+	}
+	
+	while($row = mysql_fetch_assoc($sqlResult))
+	{
+		return $row;
+	}
+	
+	return false;
+}
+
 function getAllocation()
 {
 	$sql = "SELECT ingredient FROM `allocation`";

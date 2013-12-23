@@ -418,6 +418,10 @@ form {
 /*
 EDIT by TW
 */
+#smalltable
+{
+width:inherit;
+}
 #logoutDiv
 {
 float:right;
@@ -619,7 +623,7 @@ textarea {
 #search-wrapper {
   position: absolute;
   right: 0;
-  bottom: 5px;
+  bottom: -17px;
   overflow: hidden;
   padding: 7px;
   background-color: #ffffff;
