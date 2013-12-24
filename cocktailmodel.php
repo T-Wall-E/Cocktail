@@ -28,11 +28,11 @@ function getCocktail($id)
 	$result .= "<p>" . $row['Description'] . "</p>";
 	
 	$sqlReceipe = "SELECT ingredients.name as Ingredient, units.name as Unit, units.token as UnitToken, amount "
-							. "FROM Recipes "
+							. "FROM recipes "
 							. "INNER JOIN cocktails "
-							. "ON cocktails.ID = Recipes.CID "
+							. "ON cocktails.ID = recipes.CID "
 							. "INNER JOIN ingredients "
-							. "ON ingredients.ID = Recipes.IID "
+							. "ON ingredients.ID = recipes.IID "
 							. "INNER JOIN units "
 							. "ON ingredients.UID = units.ID "
 							. "WHERE cocktails.id = " . $id;
