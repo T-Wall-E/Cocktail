@@ -16,7 +16,7 @@ function getCocktails()
 {
 	$result = "";
 	
-	$sql = "SELECT *  FROM `cocktails`";
+	$sql = "SELECT *  FROM `cocktails` ORDER BY name";
 	$sqlResult = mysql_query($sql);
 	if (!$sqlResult) {
 		die('Ungültige Anfrage: ' . $sql . ' - Gesamte Abfrage: '. mysql_error());

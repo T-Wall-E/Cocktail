@@ -17,6 +17,8 @@
 			<ul class="level-one">
 					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="current parent">Cocktail-Liste</a>
 						<?php
+							if(isset($_SESSION['GID']))
+							{
 								switch($_SESSION['GID'])
 								{
 									case 1:
@@ -28,7 +30,8 @@
 										echo "</ul>";
 										break;		
 								}
-							?>	
+							}
+						?>	
 					</li>
 
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
