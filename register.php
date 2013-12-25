@@ -126,7 +126,7 @@
 							<td class='normal'><input type='text' name='user' value='<?php echo $_SESSION['tmp_user'] ?>'></td>
 							<td class='normal'>
 							  <img
-								src="images/hint.png"
+								src="sunrise-1.0.0/img/hint.png"
 								title="Ein Benutzername muss einzigartig sein!"
 								alt="Hinweis!"
 							  />
@@ -137,7 +137,7 @@
 							<td class='normal'><input type='password' name='pw'></td>
 							<td class='normal'>
 							  <img 
-								src="images/hint.png"
+								src="sunrise-1.0.0/img/hint.png"
 								title="Muss eine Stärke von mindestens 2 haben.
 
 Die Stärke berechnet sich wie folgt:
@@ -158,7 +158,7 @@ wird der Wert auf 1 gesetzt, unabhängig davon, wie viele Punkte man zuvor erhält
 							<td class='normal'><input type='password' name='pw_confirm'></td>
 							<td class='normal'>
 							  <img 
-								src="images/hint.png"
+								src="sunrise-1.0.0/img/hint.png"
 								title="Dieses Passwort muss mit dem vorherigen übereinstimmen."
 								alt="Hinweis!"
 							  />
@@ -169,7 +169,7 @@ wird der Wert auf 1 gesetzt, unabhängig davon, wie viele Punkte man zuvor erhält
 							<td class='normal'><input type='text' name='surname' value='<?php echo $_SESSION['tmp_surname'] ?>'></td>
 							<td class='normal'>
 							  <img 
-								src="images/hint.png"
+								src="sunrise-1.0.0/img/hint.png"
 								title="Es sind nur gültige Namen erlaubt."
 								alt="Hinweis!"
 							  />
@@ -180,7 +180,7 @@ wird der Wert auf 1 gesetzt, unabhängig davon, wie viele Punkte man zuvor erhält
 							<td class='normal'><input type='text' name='name' value='<?php echo $_SESSION['tmp_name'] ?>'></td>
 							<td class='normal'>
 							  <img 
-								src="images/hint.png"
+								src="sunrise-1.0.0/img/hint.png"
 								title="Es sind nur gültige Namen erlaubt."
 								alt="Hinweis!"
 							  />

@@ -20,14 +20,19 @@
 		}
 		
 		$table .= "<table border='1'>";
+		$result .= "<thead>";
+		$table .= "<tr>";
 		$table .= "<th>";
 		$table .= "Cocktail";
 		$table .= "</th>";
 		$table .= "<th>";
 		$table .= "Verfügbar?";
 		$table .= "</th>";
+		$table .= "</tr>";
+		$result .= "</thead>";
 		
 		$count = 0;
+		$result .= "<tbody>";
 		while($row = mysql_fetch_assoc($sqlResult))
 		{
 			$count++;
@@ -40,7 +45,7 @@
 			$table .= "</td>";
 			$table .= "</tr>";
 		}
-		
+		$table .= "</tbody>";
 		$table .= "</table>";
 		
 		if($count == 0)

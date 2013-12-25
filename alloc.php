@@ -10,8 +10,10 @@ function createTable()
   $result .= "<form method=post action='allocation.php'>";
   $result .= "<table id='smalltable'>";
   $result .= "<thead>";
-  $result .= "<th>Ventil</th>
-          <th>Zutat</th>";
+  $result .= "<tr>";
+  $result .= "<th>Ventil</th>";
+  $result .= "<th>Zutat</th>";
+  $result .= "</tr>";
   $result .= "</thead>";
   
   $sql = "SELECT * FROM `allocation` AS a JOIN `ingredients` AS i ON a.ingredient = i.id";
@@ -24,6 +26,7 @@ function createTable()
   }
   
   $i = 0;
+  $result .= "<tbody>";
   while ($row = mysql_fetch_array($resultset)) {
       $result .= "<tr>";
       $result .= "<td>#" . $row["valve"] ."</td>";
@@ -42,6 +45,7 @@ function createTable()
       $result .= "</tr>";
       $i++;
   } //$row = mysql_fetch_array($resultset)
+  $result .= "</tbody>";
     
   $result .= "</table>";
   if($_SESSION['GID'] == 1)
@@ -56,7 +60,7 @@ function createTable()
 function getComboBox($selectedID, $valve)
 {
   global $connection;
-  $sql = "SELECT * FROM `ingredients`";
+  $sql = "SELECT * FROM `ingredients` ORDER BY name";
   $sqlresult = mysql_query($sql, $connection);
   if (!$sqlresult)
   {

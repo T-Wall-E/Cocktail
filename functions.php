@@ -1,6 +1,50 @@
 <?php
 include_once 'dbCon.php';
 
+function getIngredientsCombobox()
+{
+  $sql = "SELECT i.ID, i.name, u.token FROM `ingredients` i JOIN units u ON i.UID = u.ID  ORDER BY name";
+  $sqlresult = mysql_query($sql);
+  if (!$sqlresult)
+  {
+     $message  = 'Ungültige Abfrage: ' . mysql_error() . "\n";
+     $message .= 'Gesamte Abfrage: ' . $sql;
+     die($message);
+  }
+
+  $result = "";
+  $result .= "<select name='ingredients[]' size='1'>";
+  while ($row = mysql_fetch_array($sqlresult))
+  {
+    $result .=  "<option value='" . $row['ID'] . "' ";
+    $result .= ">" . $row['name'] . " (" . $row['token'] . ")</option>";
+  }
+  $result .=  "</select>";
+  return $result;
+}
+
+function getUnitsCombobox()
+{
+  $sql = "SELECT * FROM `units` ORDER BY token";
+  $sqlresult = mysql_query($sql);
+  if (!$sqlresult)
+  {
+     $message  = 'Ungültige Abfrage: ' . mysql_error() . "\n";
+     $message .= 'Gesamte Abfrage: ' . $sql;
+     die($message);
+  }
+
+  $result = "";
+  $result .= "<select name='units[]' size='1'>";
+  while ($row = mysql_fetch_array($sqlresult))
+  {
+    $result .=  "<option value='" . $row['ID'] . "' ";
+    $result .= ">" . $row['token'] . " (" . $row['name'] . ")" . "</option>";
+  }
+  $result .=  "</select>";
+  return $result;
+}
+
 function getUser($userId)
 {
 	$sql = "SELECT id, user, name, lastname, user_group, ava, birthdate, gender FROM `users` WHERE id = ".$userId;
