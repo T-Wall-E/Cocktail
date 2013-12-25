@@ -39,7 +39,7 @@
 										$ulOpen=true;
 									}
 									echo "<li>";
-									echo "<a href='/Cocktail/cocktail.php?id=" . htmlspecialchars($_GET["id"]) . "' title='Belegung' class='current'>Cocktail</a>";
+									echo "<a href='/Cocktail/cocktail.php?id=" . htmlspecialchars($_GET["id"]) . "' title='Cocktail-Details' class='current'>Cocktail-Details</a>";
 									echo "</li>";
 								}
 								
