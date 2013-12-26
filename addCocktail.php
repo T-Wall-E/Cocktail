@@ -27,8 +27,18 @@
 		
 		$errors = array();
 		
-		$sqlInsertCocktail = "INSERT INTO cocktails (Name, Description, ImageURL) " .
-							"VALUES ('" . $name . "', '" . $desc . "', '" . $img . "')";
+		$sqlInsertCocktail = "INSERT INTO cocktails (Name, Description, ImageURL, ice) " .
+							"VALUES ('" . $name . "', '" . $desc . "', '" . $img . "', ";
+							if($ice == 1)
+							{
+								$sqlInsertCocktail .= 1;
+							}
+							else
+							{
+								$sqlInsertCocktail .= 0;
+							}
+							$sqlInsertCocktail .= ")";
+							
 		$resultInsertCocktail = mysql_query($sqlInsertCocktail);
 		if(!$resultInsertCocktail)
 		{
@@ -44,18 +54,9 @@
 		
 		for($i = 0; $i < count($ingredients); $i++)
 		{
-			$sqlInsertRecipe = "INSERT INTO recipes (amount, CID, ice, IID) " .
-							"VALUES (" . $amounts[$i] . ", " . $cid . ", " .
-							"'";
-							if($ice == 1)
-							{
-								$sqlInsertRecipe .= "TRUE";
-							}
-							else
-							{
-								$sqlInsertRecipe .= "FALSE";
-							}
-							$sqlInsertRecipe .= "', " . $ingredients[$i] . ")";
+			$sqlInsertRecipe = "INSERT INTO recipes (amount, CID, IID) " .
+							"VALUES (" . $amounts[$i] . ", " . $cid . ", ";
+							$sqlInsertRecipe .= $ingredients[$i] . ")";
 			$resultInsertRecipe = mysql_query($sqlInsertRecipe);
 			if(!$resultInsertRecipe)
 			{
