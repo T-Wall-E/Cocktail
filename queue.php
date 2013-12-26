@@ -1,30 +1,32 @@
 <?php
+session_start();
 
 if(isset($_POST['cocktailID']))
 {
-	echo "In die Warteschlange eintragen: " . $_POST['cocktailID'];
-	$filename = date("Ymd-H:i:s").'.txt';
+	$filename = "queue/" . date("Ymd-His").'.txt';
 
-	$entry = date("Ymd-H:i:s") . "\t" . $_POST['cocktailID'] . "\t" . "USER" . "\n";
+	$entry = date("Ymd-H:i:s") . "\t" . $_POST['cocktailID'] . "\t" . $_POST['userID'];
 
-	if (!$handle = fopen($filename, "a+")) {
-		 print "Kann die Datei $filename nicht öffnen";
-		 exit;
+	if (!$handle = fopen($filename, "w+")) {
+		$_SESSION['error'] = "Kann die Datei $filename nicht öffnen";
+		
+		header('location: ' . $_POST['redirect']);
 	}
 	if (!fwrite($handle, $entry)) {
-		print "Kann in die Datei $filename nicht schreiben";
-		exit;
+		$_SESSION['error'] = "Kann in die Datei $filename nicht schreiben";
+		die("hier");
+		header('location: ' . $_POST['redirect']);
 	}
-
-	print "Fertig, in Datei $filename wurde $entry geschrieben";
-
+	
 	fclose($handle);
-	print "Die Datei $filename ist nicht schreibbar";
-
+	
+	$_SESSION['success'] = "Fertig, in Datei $filename wurde $entry geschrieben";
+	header('location: ' . $_POST['redirect']);
 }
 else
 {
-die("Keine ID gefunden");
+	$_SESSION['error'] = "Keine ID gefunden!";
+	header('location: ' . $_POST['redirect']);
 }
 
 ?>

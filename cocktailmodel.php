@@ -25,6 +25,16 @@ function getCocktail($id)
 	$row = mysql_fetch_assoc($sqlCocktailResult);
 	$result .= "<h1>" . $row['Name'] . "</h1>";
 	$result .= "<img src=". $row['ImageURL']. " alt=" . $row['ImageURL'] . " />";
+	if(isset($_SESSION['GID']))
+	{
+		switch($_SESSION['GID'])
+		{
+			case 1:
+			case 2:
+				$result .= '<p><a href="/Cocktail/editCocktail.php?id=' . $id . '" title="Cocktail bearbeiten" class="link">Cocktail bearbeiten</a></p>';
+				break;		
+		}
+	}
 	$result .= "<p>" . $row['Description'] . "</p>";
 	
 	$sqlReceipe = "SELECT ingredients.name as Ingredient, units.name as Unit, units.token as UnitToken, amount "
@@ -52,20 +62,34 @@ function getCocktail($id)
 	}
 	$result .= "</ul>";
 		
-	echo $result;
+	return $result;
 }
 
 // ########### End of Function ###########
 
   if(isset($_GET["id"]))
   {
-	getCocktail(htmlspecialchars($_GET["id"]));
+	echo getCocktail(htmlspecialchars($_GET["id"]));
+	
 	if(allIngredientsAvailable($_GET["id"]))
 	{
-		echo "<form action='queue.php' method='post'>";
-		echo "<input type='hidden' name='cocktailID' value='" . htmlspecialchars($_GET["id"]) . "'/>";
-		echo "<input type='submit' value='Mix mir diesen Cocktail!'/>";
-		echo "</form>";
+		$form = "<form action='queue.php' method='post'>";
+		$form .= "<input type='hidden' name='cocktailID' value='" . htmlspecialchars($_GET["id"]) . "'/>";
+		$form .= "<input type='hidden' name='redirect' value='cocktail.php?id=" . htmlspecialchars($_GET["id"]) . "'/>";
+		$form .= "<input type='hidden' name='userID' value='";
+		if(isset($_SESSION["UID"]))
+		{
+			$form .= htmlspecialchars($_SESSION["UID"]);
+		}
+		else
+		{
+			$form .= -1;
+		}			
+		$form .= "'/>";
+		$form .= "<input type='submit' value='Mix mir diesen Cocktail!'/>";
+		$form .= "</form>";
+		
+		echo $form;
 	}
   }
   else

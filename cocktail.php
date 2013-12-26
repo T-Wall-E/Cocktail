@@ -78,6 +78,11 @@
 						echo "<div class='error'>" . $_SESSION['error'] . "</div>";
 						unset($_SESSION['error']);
 					}
+					if(isset($_SESSION['success']) && $_SESSION['success'] != null && $_SESSION['success'] != "")
+					{
+						echo "<div class='success'>" . $_SESSION['success'] . "</div>";
+						unset($_SESSION['success']);
+					}
 				
 					include_once "cocktailmodel.php";
 				?>

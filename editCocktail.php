@@ -1,22 +1,24 @@
 <?php
 	session_start();
-	$title = "Neuer Cocktail";
+	$title = "Cocktail bearbeiten";
 	include_once "functions.php";
 	include_once "head.php";
 	include_once "dbCon.php";
 	
-	if(isset($_POST['add']))
+	if(isset($_POST['edit']))
     {
 		$_SESSION['error'] = "";
 		
-		checkForSQLInjectionWithRedirect($_POST['name'], "addCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['desc'], "addCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['ingredients'], "addCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['amounts'], "addCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['ice'], "addCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['selectedImgInput'], "addCocktail.php");
+		checkForSQLInjectionWithRedirect($_POST['name'], "editCocktail.php");
+		checkForSQLInjectionWithRedirect($_POST['desc'], "editCocktail.php");
+		checkForSQLInjectionWithRedirect($_POST['ingredients'], "editCocktail.php");
+		checkForSQLInjectionWithRedirect($_POST['amounts'], "editCocktail.php");
+		checkForSQLInjectionWithRedirect($_POST['ice'], "editCocktail.php");
+		checkForSQLInjectionWithRedirect($_POST['selectedImgInput'], "editCocktail.php");
+		checkForSQLInjectionWithRedirect($_POST['cid'], "editCocktail.php");
+		checkForSQLInjectionWithRedirect($_POST['rids'], "editCocktail.php");
 	
-		isValidNameWithRedirect($_POST['name'], "addCocktail.php");
+		isValidNameWithRedirect($_POST['name'], "editCocktail.php");
 
 		$name=$_POST['name'];
 		$desc=$_POST['desc'];
@@ -24,11 +26,14 @@
 		$ingredients=$_POST['ingredients'];
 		$amounts=$_POST['amounts'];
 		$ice=$_POST['ice'];
+		$cid=$_POST['cid'];
+		$rids=$_POST['rids'];
 		
 		$errors = array();
 		
-		$sqlInsertCocktail = "INSERT INTO cocktails (Name, Description, ImageURL) " .
-							"VALUES ('" . $name . "', '" . $desc . "', '" . $img . "')";
+		$sqlInsertCocktail = "UPDATE cocktails (Name, Description, ImageURL) " .
+							"VALUES ('" . $name . "', '" . $desc . "', '" . $img . "') " .
+							"WHERE id = " . $cid;
 		$resultInsertCocktail = mysql_query($sqlInsertCocktail);
 		if(!$resultInsertCocktail)
 		{
@@ -41,6 +46,20 @@
 		}
 		
 		$cid = mysql_insert_id();
+		
+		$sqlDeleteRecipe = "DELETE FROM recipes WHERE CID = " . $cid;
+		$resultDeleteRecipe = mysql_query($sqlDeleteRecipe);
+		if(!$resultDeleteRecipe)
+		{
+			$errors[]  = mysql_error();
+			$errors[]  = $sqlDeleteRecipe;
+			die($sqlDeleteRecipe);
+			if(count($errors) > 0)
+			{
+				$_SESSION['error'] = concatArr($errors);
+				header("location: editCocktail.php");
+			}
+		}
 		
 		for($i = 0; $i < count($ingredients); $i++)
 		{
@@ -65,7 +84,7 @@
 				if(count($errors) > 0)
 				{
 					$_SESSION['error'] = concatArr($errors);
-					header("location: addCocktail.php");
+					header("location: editCocktail.php");
 				}
 			}
 		}
@@ -73,10 +92,10 @@
 		if(count($errors) > 0)
         {
 			$_SESSION['error'] = concatArr($errors);
-			header("location: addCocktail.php");
+			header("location: editCocktail.php");
 		}
 		
-		$_SESSION['success'] = $name . " wurde erfolgreich eingefügt!";
+		$_SESSION['success'] = $name . " wurde erfolgreich geändert!";
 	
 	}
 ?>
@@ -99,8 +118,14 @@
 									case 2:
 										echo "<ul>";
 										echo "<li>";
-										echo '<a href="/Cocktail/addCocktail.php" title="Neuer Cocktail" class="current">Neuer Cocktail</a>';
+										echo '<a href="/Cocktail/addCocktail.php" title="Neuer Cocktail" class="link">Neuer Cocktail</a>';
 										echo "</li>";
+										if(isset($cid))
+										{
+											echo "<li>";
+											echo '<a href="/Cocktail/editCocktail.php?id=' . $cid . '" title="Cocktail bearbeiten" class="current">Cocktail bearbeiten</a>';
+											echo "</li>";
+										}
 										echo "</ul>";
 										break;		
 								}
@@ -126,7 +151,7 @@
 		<div id="main" role="main" class="clearfix"><!-- #main start -->
 			<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting"><!-- .post start -->
 				<header><!-- header start -->
-					<h2 class="page-title" itemprop="headline">Neuer Cocktail</h2>
+					<h2 class="page-title" itemprop="headline">Cocktail bearbeiten</h2>
 				</header><!-- header end -->
 				<?php 
 					if(isset($_SESSION['error']) && $_SESSION['error'] != null && $_SESSION['error'] != "")
@@ -139,8 +164,11 @@
 						echo "<div class='success'>" . $_SESSION['success'] . "</div>";
 						unset($_SESSION['success']);
 					}
-										
-					$form = "<form action='addCocktail.php' method='POST'>";
+					
+					
+					echo "Hier kann man in Zukunft Cocktails bearbeiten";
+					
+					$form = "<form action='editCocktail.php' method='POST'>";
 					$form .= "<table>";
 					$form .= "<tbody>";
 					
@@ -210,7 +238,7 @@
 					$form .= "</br>";
 					$form .= "</br>";
 					
-					$form .= "<input type='submit' name='add' value='Cocktail eintragen' />";
+					$form .= "<input type='submit' name='edit' value='Cocktail speichern' />";
 					$form .= "</form>";
 					
 					echo $form;
