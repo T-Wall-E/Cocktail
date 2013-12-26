@@ -6,7 +6,8 @@
 */
 	session_start();
 	$title = "Profil";
-	include_once "head.php"
+	include_once "head.php";
+	include_once "functions.php";
 ?>
 
 <body class="clearfix">
@@ -49,7 +50,11 @@
 				<header><!-- header start -->
 					<h2 class="page-title" itemprop="headline">Verlauf</h2>
 				</header><!-- header end -->
-				<?php echo "Hier entsteht die History-seite die anzeigtm was für Cocktails du bereits probiert hast. ;)";?>
+				<?php
+					echo "Hier entsteht die History-seite die anzeigtm was für Cocktails du bereits probiert hast. ;)";
+					
+					echo getHistory($_GET['uid']);
+				?>
 			</article><!-- .post end -->
 
 		</div><!-- #main end -->

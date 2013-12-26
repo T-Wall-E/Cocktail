@@ -61,6 +61,61 @@ function getUser($userId)
 	return false;
 }
 
+function getHistoryCount($userId)
+{
+	$sql = "SELECT * FROM `history` WHERE UID = " . $userId;
+	$sqlResult = mysql_query($sql);
+	if (!$sqlResult) {
+		die('Ungültige Anfrage: ' . $sql . mysql_error());
+	}
+	
+	return mysql_num_rows($sqlResult);
+}
+
+function getHistory($userId)
+{
+	$sql = "SELECT c.name AS Cocktailname, c.id AS CocktailID, Timestamp FROM `history` h JOIN users u ON h.UID = u.id JOIN cocktails c ON h.CID = c.ID WHERE h.UID = " . $userId;
+	$sqlResult = mysql_query($sql);
+	if (!$sqlResult) {
+		die('Ungültige Anfrage: ' . $sql . mysql_error());
+	}
+	
+	$table = "<table>";
+	$table .= "<thead>";
+	$table .= "<tr>";
+	$table .= "<th>";
+	$table .= "#";
+	$table .= "</th>";
+	$table .= "<th>";
+	$table .= "Cocktail";
+	$table .= "</th>";
+	$table .= "<th>";
+	$table .= "Datum";
+	$table .= "</th>";
+	$table .= "</tr>";
+	$table .= "</thead>";
+	$table .= "<tbody>";
+	$count = 1;
+	while($row = mysql_fetch_assoc($sqlResult))
+	{
+		$table .= "<tr>";
+		$table .= "<td>";
+		$table .= $count++;
+		$table .= "</td>";
+		$table .= "<td>";
+		$table .= "<a href='cocktail.php?id=" .  $row["CocktailID"] . "' title='" . $row["Cocktailname"] . "'>" . $row["Cocktailname"] . "</a>";
+		$table .= "</td>";
+		$table .= "<td>";
+		$table .= $row["Timestamp"];
+		$table .= "</td>";
+		$table .= "</tr>";
+	}
+	$table .= "</tbody>";
+	$table .= "</table>";
+	
+	return $table;
+}
+
 function getAllocation()
 {
 	$sql = "SELECT ingredient FROM `allocation`";

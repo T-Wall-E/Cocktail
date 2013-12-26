@@ -180,7 +180,7 @@
 				$overView .=  "<strong>Cocktail-Anzahl</strong>";
 				$overView .=  "</td>";
 				$overView .=  "<td>";
-				$overView .=  "TODO: Muss noch implementiert werden. ;)";
+				$overView .=  getHistoryCount($userArray["id"]);
 				$overView .=  "</td>";
 				$overView .=  "</tr>";
 				
