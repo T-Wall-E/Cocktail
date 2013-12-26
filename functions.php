@@ -112,8 +112,14 @@ function getHistory($userId)
 	}
 	$table .= "</tbody>";
 	$table .= "</table>";
-	
-	return $table;
+	if(mysql_num_rows($sqlResult) == 0)
+	{
+		return "Bisher wurden keine Cocktails gemixt!";
+	}
+	else
+	{
+		return $table;
+	}
 }
 
 function getAllocation()

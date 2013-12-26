@@ -51,8 +51,6 @@
 					<h2 class="page-title" itemprop="headline">Verlauf</h2>
 				</header><!-- header end -->
 				<?php
-					echo "Hier entsteht die History-seite die anzeigtm was für Cocktails du bereits probiert hast. ;)";
-					
 					echo getHistory($_GET['uid']);
 				?>
 			</article><!-- .post end -->
