@@ -123,7 +123,7 @@
 										if(isset($cid))
 										{
 											echo "<li>";
-											echo '<a href="/Cocktail/editCocktail.php?id=' . $cid . '" title="Cocktail bearbeiten" class="current">Cocktail bearbeiten</a>';
+											echo '<a href="/Cocktail/editCocktail.php?id=' . htmlspecialchars($_GET['id']) . '" title="Cocktail bearbeiten" class="current">Cocktail bearbeiten</a>';
 											echo "</li>";
 										}
 										echo "</ul>";
@@ -165,8 +165,7 @@
 						unset($_SESSION['success']);
 					}
 					
-					
-					echo "Hier kann man in Zukunft Cocktails bearbeiten";
+					$cocktail = getCocktail($_GET['id']);					
 					
 					$form = "<form action='editCocktail.php' method='POST'>";
 					$form .= "<table>";
@@ -177,7 +176,7 @@
 					$form .= "Name";
 					$form .= "</td>";
 					$form .= "<td>";
-					$form .= "<input type='text' name='name' value='' />";
+					$form .= "<input type='text' name='name' value='" . $cocktail['Name'] . "' />";
 					$form .= "</td>";
 					$form .= "</tr>";
 					
@@ -186,7 +185,7 @@
 					$form .= "Beschreibung";
 					$form .= "</td>";
 					$form .= "<td>";
-					$form .= "<textarea name='desc'></textarea>";
+					$form .= "<textarea name='desc'>" . $cocktail['Description'] . "</textarea>";
 					$form .= "</td>";
 					$form .= "</tr>";
 					$form .= "</tbody>";
@@ -207,8 +206,8 @@
 					$form .=  "Gewähltes Bild:";
 					$form .=  "</td>";
 					$form .=  "<td>";
-					$form .= "<img id='selectedImg' src='images/cocktail_4.png' alt='images/cocktail_4.png'>";
-					$form .= "<input type='hidden' id='selectedImgInput' name='selectedImgInput' value='cocktail_4.png' />";
+					$form .= "<img id='selectedImg' src='" . $cocktail['ImageURL'] . "' alt='" . $cocktail['ImageURL'] . "'>";
+					$form .= "<input type='hidden' id='selectedImgInput' name='selectedImgInput' value='" . $cocktail['ImageURL'] . "' />";
 					$form .=  "</td>";
 					$form .=  "</tr>";
 					$form .= "</table>";
@@ -220,21 +219,25 @@
 					$form .= "</p>";
 					$form .= "<table id='tableIngridient'>";
 					$form .= "<tbody>";
-					$form .= "<tr>";
-					$form .= "<td >";
-					$form .= "<input type='checkbox' name='chk[]' checked='checked' />";
-					$form .= "</td>";
-					$form .= "<td>";
-					$form .= "<input type='number' name='amounts[]' min='1' max='250' value='1'/>";
-					$form .= "</td>";
-					$form .= "<td>";
-					$form .= getIngredientsCombobox();
-					$form .= "</td>";
-					$form .= "</tr>";
+					$recipe = getRecipe($_GET['id']);
+					foreach($recipe as $ing)
+					{
+						$form .= "<tr>";
+						$form .= "<td >";
+						$form .= "<input type='checkbox' name='chk[]' checked='checked' />";
+						$form .= "</td>";
+						$form .= "<td>";
+						$form .= "<input type='number' name='amounts[]' min='1' max='250' value='" . $ing["amount"] . "'/>";
+						$form .= "</td>";
+						$form .= "<td>";
+						$form .= getIngredientsCombobox($ing['ingID']);
+						$form .= "</td>";
+						$form .= "</tr>";
+					}
 					$form .= "</tbody>";
 					$form .= "</table>";
 					
-					$form .= "<input type='checkbox' name='ice' value='1' checked='checked'> mit Eis (noch wird diese Auswahl nicht berücksichtigt!!!)</input>";
+					$form .= "<input type='checkbox' name='ice' value='1'" . (($cocktail['ice']) ? ("checked='checked'") : ("")) . "> mit Eis (noch wird diese Auswahl nicht berücksichtigt!!!)</input>";
 					$form .= "</br>";
 					$form .= "</br>";
 					

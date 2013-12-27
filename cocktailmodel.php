@@ -12,7 +12,7 @@ include_once "functions.php";
 
 // ########### Function ##################
 
-function getCocktail($id)
+function getHTMLCocktail($id)
 {
 	$result = "";
 	
@@ -69,7 +69,7 @@ function getCocktail($id)
 
   if(isset($_GET["id"]))
   {
-	echo getCocktail(htmlspecialchars($_GET["id"]));
+	echo getHTMLCocktail(htmlspecialchars($_GET["id"]));
 	
 	if(allIngredientsAvailable($_GET["id"]))
 	{

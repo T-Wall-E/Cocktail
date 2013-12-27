@@ -1,7 +1,7 @@
 <?php
 include_once 'dbCon.php';
 
-function getIngredientsCombobox()
+function getIngredientsCombobox($preselectID = null)
 {
   $sql = "SELECT i.ID, i.name, u.token FROM `ingredients` i JOIN units u ON i.UID = u.ID  ORDER BY name";
   $sqlresult = mysql_query($sql);
@@ -16,8 +16,15 @@ function getIngredientsCombobox()
   $result .= "<select name='ingredients[]' size='1'>";
   while ($row = mysql_fetch_array($sqlresult))
   {
-    $result .=  "<option value='" . $row['ID'] . "' ";
-    $result .= ">" . $row['name'] . " (" . $row['token'] . ")</option>";
+	if($preselectID != null && $row['ID'] == $preselectID)
+	{
+		$result .=  "<option value='" . $row['ID'] . "' selected>";
+	}
+	else
+	{
+		$result .=  "<option value='" . $row['ID'] . "'>";
+	}
+    $result .= $row['name'] . " (" . $row['token'] . ")</option>";
   }
   $result .=  "</select>";
   return $result;
@@ -120,6 +127,43 @@ function getHistory($userId)
 	{
 		return $table;
 	}
+}
+
+function getCocktail($id)
+{
+	$sql = "SELECT * FROM cocktails WHERE ID = " . $id . " LIMIT 1";
+	$sqlResult = mysql_query($sql);
+	if (!$sqlResult) {
+		die('Ungültige Anfrage: ' . $sql . mysql_error());
+	}
+	
+	while($row = mysql_fetch_assoc($sqlResult))
+	{
+		return $row;
+	}
+	
+	return false;
+}
+
+function getRecipe($id)
+{
+	$sql = "SELECT i.ID AS ingID, i.Name AS ingName, r.amount AS amount, u.token AS token "
+	. "FROM recipes r "
+	. "JOIN ingredients i ON r.IID = i.ID "
+	. "JOIN units u ON i.UID = u.ID "
+	. "WHERE CID = " . $id;
+	$sqlResult = mysql_query($sql);
+	if (!$sqlResult) {
+		die('Ungültige Anfrage: ' . $sql . mysql_error());
+	}
+	
+	$recipe = array();
+	while($row = mysql_fetch_assoc($sqlResult))
+	{
+		$recipe[] = $row;
+	}
+	
+	return $recipe;
 }
 
 function getAllocation()
