@@ -8,32 +8,51 @@
 	if(isset($_POST['edit']))
     {
 		$_SESSION['error'] = "";
+		$_SESSION['success'] = "";
 		
-		checkForSQLInjectionWithRedirect($_POST['name'], "editCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['desc'], "editCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['ingredients'], "editCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['amounts'], "editCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['ice'], "editCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['selectedImgInput'], "editCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['cid'], "editCocktail.php");
-		checkForSQLInjectionWithRedirect($_POST['rids'], "editCocktail.php");
-	
-		isValidNameWithRedirect($_POST['name'], "editCocktail.php");
+		checkForSQLInjectionWithRedirect($_POST['cid'], "index.php");
+		$cid = $_POST['cid'];
+		checkForSQLInjectionWithRedirect($_POST['name'], "editCocktail.php?id=" . $cid);
+		checkForSQLInjectionWithRedirect($_POST['desc'], "editCocktail.php?id=" . $cid);
+		checkForSQLInjectionWithRedirect($_POST['ingredients'], "editCocktail.php?id=" . $cid);
+		checkForSQLInjectionWithRedirect($_POST['amounts'], "editCocktail.php?id=" . $cid);
+		if(isset($_POST['ice']))
+		{
+			checkForSQLInjectionWithRedirect($_POST['ice'], "editCocktail.php?id=" . $cid);
+		}
+		checkForSQLInjectionWithRedirect($_POST['selectedImgInput'], "editCocktail.php?id=" . $cid);
+		
+		isValidNameWithRedirect($_POST['name'], "editCocktail.php?id=" . $cid);
 
 		$name=$_POST['name'];
 		$desc=$_POST['desc'];
 		$img=$_POST['selectedImgInput'];
 		$ingredients=$_POST['ingredients'];
 		$amounts=$_POST['amounts'];
-		$ice=$_POST['ice'];
-		$cid=$_POST['cid'];
-		$rids=$_POST['rids'];
+		$ice=0;
+		if(isset($_POST['ice']))
+		{
+			$ice=$_POST['ice'];
+		}
+		
 		
 		$errors = array();
 		
-		$sqlInsertCocktail = "UPDATE cocktails (Name, Description, ImageURL) " .
-							"VALUES ('" . $name . "', '" . $desc . "', '" . $img . "') " .
-							"WHERE id = " . $cid;
+		$sqlInsertCocktail = "UPDATE cocktails " .
+							" SET" . 
+							" Name='" . $name . "', " .
+							" Description='" . $desc . "', " .
+							" ImageURL='" . $img . "', " .
+							" ice=";
+							if($ice == 1)
+							{
+								$sqlInsertCocktail .= "TRUE";
+							}
+							else
+							{
+								$sqlInsertCocktail .= "FALSE";
+							}
+							$sqlInsertCocktail .= " WHERE id = " . $cid;
 		$resultInsertCocktail = mysql_query($sqlInsertCocktail);
 		if(!$resultInsertCocktail)
 		{
@@ -43,48 +62,36 @@
 		if(count($errors) > 0)
         {
 			$_SESSION['error'] = concatArr($errors);
+			header("location: editCocktail.php?id=" . $cid);
 		}
-		
-		$cid = mysql_insert_id();
-		
+				
 		$sqlDeleteRecipe = "DELETE FROM recipes WHERE CID = " . $cid;
 		$resultDeleteRecipe = mysql_query($sqlDeleteRecipe);
 		if(!$resultDeleteRecipe)
 		{
 			$errors[]  = mysql_error();
 			$errors[]  = $sqlDeleteRecipe;
-			die($sqlDeleteRecipe);
 			if(count($errors) > 0)
 			{
 				$_SESSION['error'] = concatArr($errors);
-				header("location: editCocktail.php");
+				header("location: editCocktail.php?id=" . $cid);
 			}
 		}
 		
 		for($i = 0; $i < count($ingredients); $i++)
 		{
-			$sqlInsertRecipe = "INSERT INTO recipes (amount, CID, ice, IID) " .
-							"VALUES (" . $amounts[$i] . ", " . $cid . ", " .
-							"'";
-							if($ice == 1)
-							{
-								$sqlInsertRecipe .= "TRUE";
-							}
-							else
-							{
-								$sqlInsertRecipe .= "FALSE";
-							}
-							$sqlInsertRecipe .= "', " . $ingredients[$i] . ")";
+			$sqlInsertRecipe = "INSERT INTO recipes (amount, CID, IID) " .
+							"VALUES (" . $amounts[$i] . ", " . $cid .
+							", " . $ingredients[$i] . ")";
 			$resultInsertRecipe = mysql_query($sqlInsertRecipe);
 			if(!$resultInsertRecipe)
 			{
 				$errors[]  = mysql_error();
 				$errors[]  = $sqlInsertRecipe;
-				die($sqlInsertRecipe);
 				if(count($errors) > 0)
 				{
 					$_SESSION['error'] = concatArr($errors);
-					header("location: editCocktail.php");
+					header("location: editCocktail.php?id=" . $cid);
 				}
 			}
 		}
@@ -92,11 +99,12 @@
 		if(count($errors) > 0)
         {
 			$_SESSION['error'] = concatArr($errors);
-			header("location: editCocktail.php");
+			header("location: editCocktail.php?id=" . $cid);
 		}
 		
 		$_SESSION['success'] = $name . " wurde erfolgreich geändert!";
-	
+		session_write_close();
+		header("location: cocktail.php?id=" . $cid);
 	}
 ?>
 
@@ -167,7 +175,8 @@
 					
 					$cocktail = getCocktail($_GET['id']);					
 					
-					$form = "<form action='editCocktail.php' method='POST'>";
+					$form = "<form action='editCocktail.php?id=" . $cocktail['ID'] . "' method='POST'>";
+					$form .= "<input type='hidden' name='cid' value='" . $cocktail['ID'] . "' />";
 					$form .= "<table>";
 					$form .= "<tbody>";
 					
@@ -260,7 +269,7 @@
 			function addRow(tableID) {
 				var table = document.getElementById(tableID);
 				var rowCount = table.rows.length;
-				if(rowCount < 5){                            // limit the user from creating fields more than your limits
+				if(rowCount < 8){                            // limit the user from creating fields more than your limits
 					var row = table.insertRow(rowCount);
 					var colCount = table.rows[0].cells.length;
 					for(var i=0; i<colCount; i++) {
@@ -268,7 +277,7 @@
 						newcell.innerHTML = table.rows[0].cells[i].innerHTML;
 					}
 				}else{
-					 alert("Maximum Ingredients reached!");
+					 alert("Mehr Zutatuen gehen nicht!");
 						   
 				}
 			}
@@ -281,7 +290,7 @@
 					var chkbox = row.cells[0].childNodes[0];
 					if(null != chkbox && true == chkbox.checked) {
 						if(rowCount <= 1) {               // limit the user from removing all the fields
-							alert("Cannot Remove all the Ingredient.");
+							alert("Mann brauch mindestens 2 Zutaten für einen Cocktail.");
 							break;
 						}
 						table.deleteRow(i);

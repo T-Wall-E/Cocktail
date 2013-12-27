@@ -83,7 +83,7 @@
 						echo "<div class='success'>" . $_SESSION['success'] . "</div>";
 						unset($_SESSION['success']);
 					}
-				
+					
 					include_once "cocktailmodel.php";
 				?>
 			</article><!-- .post end -->

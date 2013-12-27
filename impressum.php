@@ -36,7 +36,7 @@
 		<div id="main" role="main" class="clearfix"><!-- #main start -->
 			<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting"><!-- .post start -->
 				<header><!-- header start -->
-					<h2 class="page-title" itemprop="headline">Ventil-Belegung</h2>
+					<h2 class="page-title" itemprop="headline">Impressum</h2>
 				</header><!-- header end -->
 				<?php
 					if(isset($_SESSION['error']) && $_SESSION['error'] != null && $_SESSION['error'] != "")

@@ -201,7 +201,19 @@
 					$form .= "<input type='number' name='amounts[]' min='1' max='250' value='1'/>";
 					$form .= "</td>";
 					$form .= "<td>";
-					$form .= getIngredientsCombobox();
+					$comboIng = getIngredientsCombobox();
+					$form .= $comboIng;
+					$form .= "</td>";
+					$form .= "</tr>";
+					$form .= "<tr>";
+					$form .= "<td >";
+					$form .= "<input type='checkbox' name='chk[]' checked='checked' />";
+					$form .= "</td>";
+					$form .= "<td>";
+					$form .= "<input type='number' name='amounts[]' min='1' max='250' value='1'/>";
+					$form .= "</td>";
+					$form .= "<td>";
+					$form .= $comboIng;
 					$form .= "</td>";
 					$form .= "</tr>";
 					$form .= "</tbody>";
@@ -230,7 +242,7 @@
 			function addRow(tableID) {
 				var table = document.getElementById(tableID);
 				var rowCount = table.rows.length;
-				if(rowCount < 5){                            // limit the user from creating fields more than your limits
+				if(rowCount < 8){                            // limit the user from creating fields more than your limits
 					var row = table.insertRow(rowCount);
 					var colCount = table.rows[0].cells.length;
 					for(var i=0; i<colCount; i++) {
@@ -238,7 +250,7 @@
 						newcell.innerHTML = table.rows[0].cells[i].innerHTML;
 					}
 				}else{
-					 alert("Maximum Ingredients reached!");
+					 alert("Mehr Zutatuen gehen nicht!");
 						   
 				}
 			}
@@ -250,8 +262,8 @@
 					var row = table.rows[i];
 					var chkbox = row.cells[0].childNodes[0];
 					if(null != chkbox && true == chkbox.checked) {
-						if(rowCount <= 1) {               // limit the user from removing all the fields
-							alert("Cannot Remove all the Ingredient.");
+						if(rowCount <= 2) {               // limit the user from removing all the fields
+							alert("Mann brauch mindestens 2 Zutaten für einen Cocktail.");
 							break;
 						}
 						table.deleteRow(i);
