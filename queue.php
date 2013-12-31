@@ -6,7 +6,6 @@ if(isset($_POST['cocktailID']))
 {
 	$errors = array();
 	
-	
 	$sql = "INSERT INTO history (UID, CID) " .
 			"VALUES (" . $_POST['userID'] . ", " . $_POST['cocktailID'] . ")";
 	$result = mysql_query($sql);
@@ -18,13 +17,12 @@ if(isset($_POST['cocktailID']))
 		$_SESSION['error'] = concatArr($errors);
 		header('location: ' . $_POST['redirect']);
 	}
-
-
-	$filename = "queue/" . date("Ymd-His").'.txt';
+	
+	$filename = $_SERVER["DOCUMENT_ROOT"] ."/Cocktail/queue/" . date("Ymd-His").'.cocktail';
 
 	$entry = date("Ymd-H:i:s") . "\t" . $_POST['cocktailID'] . "\t" . $_POST['userID'];
 
-	if (!$handle = fopen($filename, "w+")) {
+	if (!$handle = fopen($filename, "w")) {
 		$errors[] = "Kann die Datei $filename nicht öffnen";
 		$_SESSION['error'] = concatArr($errors);
 		header('location: ' . $_POST['redirect']);
@@ -37,7 +35,7 @@ if(isset($_POST['cocktailID']))
 	
 	fclose($handle);
 	
-	$_SESSION['success'] = "Fertig, in Datei $filename wurde $entry geschrieben";
+	$_SESSION['success'] = "Fertig! Dein Cocktail wird gleich bearbeitet!";
 	header('location: ' . $_POST['redirect']);
 }
 else
