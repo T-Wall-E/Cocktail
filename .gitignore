@@ -214,5 +214,8 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
-# ignore Queue-Folder
+#ignore Queue-Folder
 queue/*
+
+#ignore status.txt
+status.txt

@@ -35,7 +35,7 @@ if(isset($_POST['cocktailID']))
 	
 	fclose($handle);
 	
-	$_SESSION['success'] = "Fertig! Dein Cocktail wird gleich bearbeitet!";
+	$_SESSION['success'] = "Dein Cocktail wird gleich bearbeitet!";
 	header('location: ' . $_POST['redirect']);
 }
 else

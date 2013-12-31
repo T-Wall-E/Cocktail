@@ -1,12 +1,17 @@
 <footer role="contentinfo" class="clearfix" id="footer"><!-- #footer start -->
 	
 		<div id="inner-footer" class="clearfix"><!-- #inner-footer start -->
-	
-			<p>&copy; Cocktail-Maschine | Sunrise Theme by <a href="http://www.gpmd.co.uk/" title="GPMD - Award Winning Website Architects">GPMD</a> | <a href="impressum.php" title="Impressum">Impressum</a></p>
-
-		
+			<p>
+				Status:
+				<textarea id="status" name="user_eingabe" rows="1">
+				</textarea>
+			</p>
 		</div><!-- #inner-footer end -->
 		
+		<div id="inner-footer" class="clearfix"><!-- #inner-footer start -->
+			<p>&copy; Cocktail-Maschine | Sunrise Theme by <a href="http://www.gpmd.co.uk/" title="GPMD - Award Winning Website Architects">GPMD</a> | <a href="impressum.php" title="Impressum">Impressum</a></p>
+		</div><!-- #inner-footer end -->
+	
 </footer><!-- #footer end -->
 
 <!-- Scripts -->
@@ -28,7 +33,17 @@
 		nope : ['sunrise-1.0.0/js/libs/respond.min.js']
 	});
 	</script>
-<script>	
+
+	<script type="text/javascript">
+     jQuery(document).ready(function() {
+       jQuery("#status").load("status.php");
+       var refreshId = setInterval(function() {
+          jQuery("#status").load('status.php');
+       }, 1000);
+    });
+</script>
+
+	<script>
 Behaviour.register({
 	'#SearchForm_SearchForm': {
 		validate : function(fromAnOnBlur) {
