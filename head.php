@@ -4,7 +4,7 @@ if (isset($_POST['logout'])) {
     session_destroy();
 }
 // Wenn nicht eingelogt und nicht auf der Index-Seite, dann auf Index-Seite weiterleiten.
-if (strpos($_SERVER['PHP_SELF'],'index.php') === false && !(isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "" && isset($_SESSION['UID'])))
+if (strpos($_SERVER['PHP_SELF'],'index.php') === false && strpos($_SERVER['PHP_SELF'], 'impressum.php') === false && !(isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "" && isset($_SESSION['UID'])))
 {
 	header('location: index.php'); 
 }
