@@ -72,29 +72,14 @@
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
 			<ul class="level-one">
 					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="parent">Cocktail-Liste</a>
-						<?php
-							if(isset($_SESSION['GID']))
-							{
-								switch($_SESSION['GID'])
-								{
-									case 1:
-									case 2:
-										echo "<ul>";
-										echo "<li>";
-										echo '<a href="/Cocktail/addCocktail.php" title="Neuer Cocktail" class="link">Neuer Cocktail</a>';
-										echo "</li>";
-										echo "</ul>";
-										break;		
-								}
-							}
-						?>	
+						
 					</li>
 
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
 						<!-- New submenu level -->
 					</li>
 					
-					<li><a href="/Cocktail/users.php" title="Belegung" class="current link">User-Liste</a>	
+					<li><a href="/Cocktail/users.php" title="User-Liste" class="current link">User-Liste</a>	
 						<!-- New submenu level -->
 					</li>
 					
@@ -105,6 +90,24 @@
 						echo "</li>";
 					}
 					?>
+					
+					<?php
+						if(isset($_SESSION['GID']))
+						{
+							switch($_SESSION['GID'])
+							{
+								case 1:
+								case 2:
+									echo "<ul>";
+									echo "<li>";
+									echo '<a href="/Cocktail/admin.php" title="Control-Panel" class="current">Control-Panel</a>';
+									echo "</li>";
+									echo "</ul>";
+									break;		
+							}
+						}
+					?>
+					
 			</ul>
 		</nav><!-- #navigation end -->
 	</header><!-- #header end -->

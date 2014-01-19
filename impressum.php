@@ -21,7 +21,7 @@
 						<!-- New submenu level -->
 					</li>
 					
-					<li><a href="/Cocktail/users.php" title="Belegung" class="link">User-Liste</a>	
+					<li><a href="/Cocktail/users.php" title="User-Liste" class="link">User-Liste</a>	
 						<!-- New submenu level -->
 					</li>
 					
@@ -31,6 +31,23 @@
 						echo "<li><a href='/Cocktail/user.php?uid=" . htmlspecialchars($_SESSION['UID']) . "' title='Dein Profil' class='link parent'>Dein Profil</a>";
 						echo "</li>";
 					}
+					?>
+					
+					<?php
+						if(isset($_SESSION['GID']))
+						{
+							switch($_SESSION['GID'])
+							{
+								case 1:
+								case 2:
+									echo "<ul>";
+									echo "<li>";
+									echo '<a href="/Cocktail/admin.php" title="Control-Panel" class="current">Control-Panel</a>';
+									echo "</li>";
+									echo "</ul>";
+									break;		
+							}
+						}
 					?>
 			</ul>
 		</nav><!-- #navigation end -->

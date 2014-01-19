@@ -36,11 +36,6 @@
 						{
 							echo "<li>";
 							echo 	"<a href='/Cocktail/user.php?uid=" . htmlspecialchars($_SESSION['UID']) ."' title='Dein Profil' class='link parent'>Dein Profil</a>";
-							echo 	"<ul>";
-							echo 		"<li>";
-							echo			"<a href='/Cocktail/history.php?uid=" . htmlspecialchars($_SESSION['UID']) . "' title='Verlauf' class='current'>Verlauf</a>";
-							echo 		"</li>";
-							echo 	"</ul>";
 							echo "</li>";
 						}
 					?>
@@ -69,10 +64,10 @@
 		<div id="main" role="main" class="clearfix"><!-- #main start -->
 			<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting"><!-- .post start -->
 				<header><!-- header start -->
-					<h2 class="page-title" itemprop="headline">Verlauf</h2>
+					<h2 class="page-title" itemprop="headline">Control-Panel</h2>
 				</header><!-- header end -->
 				<?php
-					echo getHistory($_GET['uid']);
+					echo "Hier entsteht die Admin-Seite";
 				?>
 			</article><!-- .post end -->
 
