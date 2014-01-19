@@ -76,7 +76,7 @@
 								case 2:
 									echo "<ul>";
 									echo "<li>";
-									echo '<a href="/Cocktail/admin.php" title="Control-Panel" class="current">Control-Panel</a>';
+									echo '<a href="/Cocktail/admin.php" title="Control-Panel" class="link">Control-Panel</a>';
 									echo "</li>";
 									echo "</ul>";
 									break;		
