@@ -5,7 +5,7 @@
 #	Übersicht über den aktuell eingeloggten User
 */
 	session_start();
-	$title = "Profil";
+	$title = "Verlauf";
 	include_once "head.php";
 	include_once "functions.php";
 ?>
@@ -24,6 +24,10 @@
 					</li>
 
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
+						<!-- New submenu level -->
+					</li>
+					
+					<li><a href="/Cocktail/users.php" title="Belegung" class="link">User-Liste</a>	
 						<!-- New submenu level -->
 					</li>
 					

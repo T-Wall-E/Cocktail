@@ -78,6 +78,11 @@
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
 						<!-- New submenu level -->
 					</li>
+					
+					<li><a href="/Cocktail/users.php" title="Belegung" class="link">User-Liste</a>	
+						<!-- New submenu level -->
+					</li>
+					
 					<?php
 						if(isset($_SESSION['UID']))
 						{
@@ -85,7 +90,7 @@
 							echo 	"<a href='/Cocktail/user.php?uid=" . htmlspecialchars($_SESSION['UID']) ."' title='Dein Profil' class='current parent'>Dein Profil</a>";
 							echo 	"<ul>";
 							echo 		"<li>";
-							echo			"<a href='/Cocktail/history.php?uid=" . htmlspecialchars($_SESSION['UID']) . "' title='Verlauf' class='link'>Verlauf</a>";
+							echo			"<a href='/Cocktail/history.php?uid=" . htmlspecialchars($_GET['uid']) . "' title='Verlauf' class='link'>Verlauf</a>";
 							echo 		"</li>";
 							echo 	"</ul>";
 							echo "</li>";

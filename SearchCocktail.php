@@ -82,6 +82,10 @@
 						<!-- New submenu level -->
 					</li>
 					
+					<li><a href="/Cocktail/users.php" title="Belegung" class="link">User-Liste</a>	
+						<!-- New submenu level -->
+					</li>
+					
 					<li><a href="/Cocktail/user.php" title="Dein Profil" class="link parent">Dein Profil</a>	
 						<!-- New submenu level -->
 					</li>

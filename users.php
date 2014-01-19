@@ -1,7 +1,63 @@
 <?php 
 	session_start();
 	$title = "Cocktail-Liste";
-	include_once "head.php"
+	include_once "head.php";
+	include_once "dbCon.php";
+	
+	function getUsers()
+{
+	$result = "";
+	
+	$sql = "SELECT *  FROM `users` ORDER BY ID";
+	$sqlResult = mysql_query($sql);
+	if (!$sqlResult) {
+		die('Ungültige Anfrage: ' . $sql . ' - Gesamte Abfrage: '. mysql_error());
+	}
+	
+	$result .= "<table>";
+	
+	$result .= "<thead>";
+	$result .= "<tr>";
+	$result .= "<th>";
+	$result .= "ID";
+	$result .= "</th>";
+	$result .= "<th>";
+	$result .= "Vorname";
+	$result .= "</th>";
+	$result .= "<th>";
+	$result .= "Nachname";
+	$result .= "</th>";
+	$result .= "<th>";
+	$result .= "Username";
+	$result .= "</th>";
+	$result .= "</tr>";
+	$result .= "</thead>";
+	
+	$count = 1;
+	$result .= "<tbody>";
+	while($row = mysql_fetch_assoc($sqlResult))
+	{
+		$result .= "<tr>";
+		$result .= "<td>";
+		$result .= "<a href=user.php?uid=" . $row['ID'] . ">" . $row['ID'] . "</a>";
+		$result .= "</td>";
+		$result .= "<td>";
+		$result .= $row['name'];
+		$result .= "</td>";
+		$result .= "<td>";
+		$result .= $row['lastname'];
+		$result .= "</td>";
+		$result .= "<td>";
+		$result .= $row['user'];
+		$result .= "</td>";
+		$result .= "</tr>";
+	}
+	$result .= "</tbody>";
+	
+	$result .= "</table>";
+	
+	return $result;
+}
 ?>
 
 <body class="clearfix">
@@ -15,7 +71,7 @@
 		<!-- navigation -->
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
 			<ul class="level-one">
-					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="current parent">Cocktail-Liste</a>
+					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="parent">Cocktail-Liste</a>
 						<?php
 							if(isset($_SESSION['GID']))
 							{
@@ -38,10 +94,9 @@
 						<!-- New submenu level -->
 					</li>
 					
-					<li><a href="/Cocktail/users.php" title="Belegung" class="link">User-Liste</a>	
+					<li><a href="/Cocktail/users.php" title="Belegung" class="current link">User-Liste</a>	
 						<!-- New submenu level -->
 					</li>
-					
 					
 					<?php
 					if (isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "" && isset($_SESSION['UID']))
@@ -58,7 +113,7 @@
 		<div id="main" role="main" class="clearfix"><!-- #main start -->
 			<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting"><!-- .post start -->
 				<header><!-- header start -->
-					<h2 class="page-title" itemprop="headline">Cocktail-Liste</h2>
+					<h2 class="page-title" itemprop="headline">User-Liste</h2>
 				</header><!-- header end -->
 				<?php 
 				   if(isset($_SESSION['error']) && $_SESSION['error'] != null && $_SESSION['error'] != "")
@@ -66,14 +121,9 @@
 					  echo "<div class='error'>" . $_SESSION['error'] . "</div>";
 					  unset($_SESSION['error']);
 				   }
-					if (isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "" && isset($_SESSION['UID']))
-					{
-						include_once "cocktaillist.php";
-					}
-					else
-					{
-						include_once "login.php";
-					}
+					
+					echo getUsers();
+					
 				?>
 			</article><!-- .post end -->
 

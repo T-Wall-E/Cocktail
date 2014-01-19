@@ -144,6 +144,10 @@
 						<!-- New submenu level -->
 					</li>
 					
+					<li><a href="/Cocktail/users.php" title="Belegung" class="link">User-Liste</a>	
+						<!-- New submenu level -->
+					</li>
+					
 					<?php					
 					if (isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "" && isset($_SESSION['UID']))
 					{

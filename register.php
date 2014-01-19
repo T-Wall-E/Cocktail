@@ -94,6 +94,10 @@
 						<!-- New submenu level -->
 					</li>
 					
+					<li><a href="/Cocktail/users.php" title="Belegung" class="link">User-Liste</a>	
+						<!-- New submenu level -->
+					</li>
+					
 					<?php
 					if (isset($_SESSION['user']) && $_SESSION['user'] != null && $_SESSION['user'] != "" && isset($_SESSION['UID']))
 					{
@@ -189,7 +193,7 @@ wird der Wert auf 1 gesetzt, unabhängig davon, wie viele Punkte man zuvor erhält
 					  </table>
 					  <input class="buttonblue" type='submit' name='register'value='Registrieren'>
 					</form>
-  				<a class='buttonback' href='login.php'>Zurück zur Anmeldung</a>
+  				<a class='buttonback' href='index.php'>Zurück zur Anmeldung</a>
 			</article><!-- .post end -->
 
 		</div><!-- #main end -->
