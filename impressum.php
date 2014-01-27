@@ -1,7 +1,7 @@
 <?php 
 	session_start();
 	$title = "Impressum";
-	include_once "head.php"
+	include_once "head.php";
 ?>
 
 <body class="clearfix">
@@ -13,8 +13,12 @@
 		<!-- navigation -->
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
 			<ul class="level-one">
-					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link parent">Cocktail-Liste</a>
+					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link <?php echo isAdminBy_SESSION() ? "parent" : "" ?>">Cocktail-Liste</a>
 						<!-- New submenu level -->			
+					</li>
+					
+					<li><a href="/Cocktail/ingredients.php" title="Zutaten-Liste" class="link <?php echo isAdminBy_SESSION() ? "parent" : "" ?>">Zutaten-Liste</a>
+						
 					</li>
 
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="current">Belegung</a>	

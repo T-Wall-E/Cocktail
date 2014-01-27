@@ -19,8 +19,12 @@
 		<!-- navigation -->
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
 			<ul class="level-one">
-					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link parent">Cocktail-Liste</a>
+					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link <?php echo isAdminBy_SESSION() ? "parent" : "" ?>">Cocktail-Liste</a>
 						<!-- New submenu level -->
+					</li>
+					
+					<li><a href="/Cocktail/ingredients.php" title="Zutaten-Liste" class="link <?php echo isAdminBy_SESSION() ? "parent" : "" ?>">Zutaten-Liste</a>
+						
 					</li>
 
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
@@ -64,10 +68,17 @@
 		<div id="main" role="main" class="clearfix"><!-- #main start -->
 			<article class="post" role="article" itemscope itemtype="http://schema.org/BlogPosting"><!-- .post start -->
 				<header><!-- header start -->
-					<h2 class="page-title" itemprop="headline">Control-Panel</h2>
+					<h1 class="page-title" itemprop="headline">Control-Panel</h1>
 				</header><!-- header end -->
 				<?php
-					echo "Hier entsteht die Admin-Seite";
+					$dir    = 'admin';
+					$files = array_diff(scandir($dir), array('..', '.'));
+					
+					foreach ($files as $value)
+					{
+						include_once $dir . "\\" . $value;
+						echo "<hr>";
+					}
 				?>
 			</article><!-- .post end -->
 

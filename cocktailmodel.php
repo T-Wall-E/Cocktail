@@ -69,7 +69,7 @@ function getHTMLCocktail($id)
 
   if(isset($_GET["id"]))
   {
-	echo getHTMLCocktail(htmlspecialchars($_GET["id"]));
+	echo getHTMLCocktail(mysql_real_escape_string ($_GET["id"]));
 	
 	if(allIngredientsAvailable($_GET["id"]))
 	{

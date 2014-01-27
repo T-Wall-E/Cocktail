@@ -2,6 +2,7 @@
 	session_start();
 	$title = "Cocktail-Liste";
 	include_once "head.php";
+	include_once "functions.php";
 	include_once "dbCon.php";
 	
 	function getUsers()
@@ -70,8 +71,12 @@
 
 		<!-- navigation -->
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
-			<ul class="level-one">
-					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="parent">Cocktail-Liste</a>
+			<ul class="level-one level-two">
+					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="<?php echo isAdminBy_SESSION() ? "parent" : "" ?>">Cocktail-Liste</a>
+						
+					</li>
+					
+					<li><a href="/Cocktail/ingredients.php" title="Zutaten-Liste" class="link <?php echo isAdminBy_SESSION() ? "parent" : "" ?>">Zutaten-Liste</a>
 						
 					</li>
 
@@ -92,19 +97,11 @@
 					?>
 					
 					<?php
-						if(isset($_SESSION['GID']))
+						if(isAdminBy_SESSION())
 						{
-							switch($_SESSION['GID'])
-							{
-								case 1:
-								case 2:
-									echo "<ul>";
-									echo "<li>";
-									echo '<a href="/Cocktail/admin.php" title="Control-Panel" class="link">Control-Panel</a>';
-									echo "</li>";
-									echo "</ul>";
-									break;		
-							}
+							echo "<li>";
+							echo '<a href="/Cocktail/admin.php" title="Control-Panel" class="link">Control-Panel</a>';
+							echo "</li>";
 						}
 					?>
 					

@@ -1,6 +1,24 @@
 <?php
 include_once 'dbCon.php';
 
+function isAdminBy_SESSION()
+{
+	$result = false;
+	
+	if(isset($_SESSION['GID']))
+	{
+		switch($_SESSION['GID'])
+		{
+			case 1:
+			case 2:
+				$result = true;
+				break;		
+		}
+	}
+	
+	return $result;
+}
+
 function getIngredientsCombobox($preselectID = null)
 {
   $sql = "SELECT i.ID, i.name, u.token FROM `ingredients` i JOIN units u ON i.UID = u.ID  ORDER BY name";

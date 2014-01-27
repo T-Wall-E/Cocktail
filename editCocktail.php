@@ -116,28 +116,29 @@
 		
 		<!-- navigation -->
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
-			<ul class="level-one">
+			<ul class="level-one <?php echo isAdminBy_SESSION() ? "level-two" : "" ?>">
 					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link parent">Cocktail-Liste</a>
 						<!-- New submenu level -->
 							<?php
-								switch($_SESSION['GID'])
+								if(isAdminBy_SESSION())
 								{
-									case 1:
-									case 2:
-										echo "<ul>";
+									echo "<ul>";
+									echo "<li>";
+									echo '<a href="/Cocktail/addCocktail.php" title="Neuer Cocktail" class="link">Neuer Cocktail</a>';
+									echo "</li>";
+									if(isset($cid))
+									{
 										echo "<li>";
-										echo '<a href="/Cocktail/addCocktail.php" title="Neuer Cocktail" class="link">Neuer Cocktail</a>';
+										echo '<a href="/Cocktail/editCocktail.php?id=' . htmlspecialchars($_GET['id']) . '" title="Cocktail bearbeiten" class="current">Cocktail bearbeiten</a>';
 										echo "</li>";
-										if(isset($cid))
-										{
-											echo "<li>";
-											echo '<a href="/Cocktail/editCocktail.php?id=' . htmlspecialchars($_GET['id']) . '" title="Cocktail bearbeiten" class="current">Cocktail bearbeiten</a>';
-											echo "</li>";
-										}
-										echo "</ul>";
-										break;		
+									}
+									echo "</ul>";
 								}
 							?>
+					</li>
+					
+					<li><a href="/Cocktail/ingredients.php" title="Zutaten-Liste" class="link <?php echo isAdminBy_SESSION() ? "parent" : "" ?>">Zutaten-Liste</a>
+						
 					</li>
 
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
@@ -157,19 +158,11 @@
 					?>
 					
 					<?php
-						if(isset($_SESSION['GID']))
+						if(isAdminBy_SESSION())
 						{
-							switch($_SESSION['GID'])
-							{
-								case 1:
-								case 2:
-									echo "<ul>";
-									echo "<li>";
-									echo '<a href="/Cocktail/admin.php" title="Control-Panel" class="link">Control-Panel</a>';
-									echo "</li>";
-									echo "</ul>";
-									break;		
-							}
+							echo "<li>";
+							echo '<a href="/Cocktail/admin.php" title="Control-Panel" class="link">Control-Panel</a>';
+							echo "</li>";
 						}
 					?>
 			</ul>

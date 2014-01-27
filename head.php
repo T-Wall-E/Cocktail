@@ -1,6 +1,6 @@
 <?php
 if (isset($_POST['logout'])) {
-    $_SESSION['user'] = null;
+    $_SESSION = array();
     session_destroy();
 }
 // Wenn nicht eingelogt und nicht auf der Index-Seite, dann auf Index-Seite weiterleiten.

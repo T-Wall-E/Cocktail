@@ -89,6 +89,10 @@
 					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link parent">Cocktail-Liste</a>
 						<!-- New submenu level -->			
 					</li>
+					
+					<li><a href="/Cocktail/ingredients.php" title="Zutaten-Liste" class="link parent">Zutaten-Liste</a>
+						
+					</li>
 
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
 						<!-- New submenu level -->

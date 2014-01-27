@@ -70,9 +70,13 @@
 		
 		<!-- navigation -->
 		<nav role="navigation" id="navigation" class="clearfix"><!-- #navigation start -->
-			<ul class="level-one">
-					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link parent">Cocktail-Liste</a>
+			<ul class="level-one level-two">
+					<li><a href="/Cocktail/index.php" title="Cocktail-Liste" class="link <?php echo isAdminBy_SESSION() ? "parent" : "" ?>">Cocktail-Liste</a>
 						<!-- New submenu level -->
+					</li>
+					
+					<li><a href="/Cocktail/ingredients.php" title="Zutaten-Liste" class="link <?php echo isAdminBy_SESSION() ? "parent" : "" ?>">Zutaten-Liste</a>
+						
 					</li>
 
 					<li><a href="/Cocktail/allocation.php" title="Belegung" class="link">Belegung</a>	
@@ -88,6 +92,7 @@
 						{
 							echo "<li>";
 							echo 	"<a href='/Cocktail/user.php?uid=" . htmlspecialchars($_SESSION['UID']) ."' title='Dein Profil' class='current parent'>Dein Profil</a>";
+							echo	"<!-- New submenu level -->";
 							echo 	"<ul>";
 							echo 		"<li>";
 							echo			"<a href='/Cocktail/history.php?uid=" . htmlspecialchars($_GET['uid']) . "' title='Verlauf' class='link'>Verlauf</a>";
@@ -98,19 +103,11 @@
 					?>
 					
 					<?php
-						if(isset($_SESSION['GID']))
+						if(isAdminBy_SESSION())
 						{
-							switch($_SESSION['GID'])
-							{
-								case 1:
-								case 2:
-									echo "<ul>";
-									echo "<li>";
-									echo '<a href="/Cocktail/admin.php" title="Control-Panel" class="link">Control-Panel</a>';
-									echo "</li>";
-									echo "</ul>";
-									break;		
-							}
+							echo "<li>";
+							echo '<a href="/Cocktail/admin.php" title="Control-Panel" class="link">Control-Panel</a>';
+							echo "</li>";
 						}
 					?>
 			</ul>
