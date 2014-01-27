@@ -76,7 +76,7 @@
 					
 					foreach ($files as $value)
 					{
-						include_once $dir . "\\" . $value;
+						include_once $dir . "/" . $value;
 						echo "<hr>";
 					}
 				?>
