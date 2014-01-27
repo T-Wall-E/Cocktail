@@ -2,6 +2,7 @@
 	session_start();
 	$title = "Impressum";
 	include_once "head.php";
+	include_once "functions.php";
 ?>
 
 <body class="clearfix">
