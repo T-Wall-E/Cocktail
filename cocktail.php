@@ -2,6 +2,7 @@
 	session_start();
 	$title = "Cocktail-Details";
 	include_once "head.php";
+	include_once "functions.php";
 ?>
 
 <body class="clearfix">
