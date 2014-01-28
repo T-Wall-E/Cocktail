@@ -2,6 +2,7 @@
 	session_start();
 	$title = "Belegung";
 	include_once "head.php";
+	include_once "functions.php";
 ?>
 
 <body class="clearfix">
