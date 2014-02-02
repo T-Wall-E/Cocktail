@@ -65,6 +65,18 @@
 		echo "<p>Aktuell sind keine Cocktails in der Warteschlange gelistet.</p>";
 	}
 	
+	 if(isset($_SESSION['error']) && $_SESSION['error'] != null && $_SESSION['error'] != "")
+        {
+                echo "<div class='error'>" . $_SESSION['error'] . "</div>";
+                unset($_SESSION['error']);
+        }
+        if(isset($_SESSION['success']) && $_SESSION['success'] != null && $_SESSION['success'] != "")
+        {
+                echo "<div class='success'>" . $_SESSION['success'] . "</div>";
+                unset($_SESSION['success']);
+        }
+
+
 	$form = "<form action='admin.php' method='POST'>";
 	$form .= "<input type='submit' name='clear' value='Warteschlange leeren'>";
 	$form .= "</form>";
