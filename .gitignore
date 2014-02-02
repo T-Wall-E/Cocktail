@@ -219,3 +219,6 @@ queue/*
 
 #ignore status.txt
 status.txt
+
+#ignore images
+images/*
