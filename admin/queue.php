@@ -1,10 +1,5 @@
 <?php
-	echo "<h2>Cocktail-Warteschlange</h2>";
-	
-	echo "<p>Hier haben Sie die M&ouml;glichkeit alle Cocktails aus der Warteschlange zu l&ouml;schen. (Wenn welche vorhanden sind. ;) )</p>";
-	
-	
-	$queueDir = "queue" . DIRECTORY_SEPARATOR;
+	$queueDir = $_SERVER["DOCUMENT_ROOT"] . DIRECTORY_SEPARATOR . "Cocktail" . DIRECTORY_SEPARATOR . "queue" . DIRECTORY_SEPARATOR;
 	
 	if(isset($_POST['clear']))
 	{
@@ -36,11 +31,18 @@
 			}
 			
 			$_SESSION['success'] .= " gel&ouml;scht.";
-			
 		}
-		// TODO: Ergebnis
-
+		else
+		{
+			$_SESSION['info'] = "Keine Datei wurde gel&ouml;scht.";
+		}
 	}
+	
+	echo "<h2>Cocktail-Warteschlange</h2>";
+	
+	echo "<p>Hier haben Sie die M&ouml;glichkeit alle Cocktails aus der Warteschlange zu l&ouml;schen. (Wenn welche vorhanden sind. ;) )</p>";
+	
+	include "infopanel.php";	
 	
 	$table = "<table border=\"1\">\n";
 	$table .= "<tr><th>#</th><th>Name</th></tr>";
@@ -55,7 +57,6 @@
 	}
 	$table .= "</table>\n\n";
 	
-	
 	if($count > 0)
 	{
 		echo $table;
@@ -64,18 +65,6 @@
 	{
 		echo "<p>Aktuell sind keine Cocktails in der Warteschlange gelistet.</p>";
 	}
-	
-	 if(isset($_SESSION['error']) && $_SESSION['error'] != null && $_SESSION['error'] != "")
-        {
-                echo "<div class='error'>" . $_SESSION['error'] . "</div>";
-                unset($_SESSION['error']);
-        }
-        if(isset($_SESSION['success']) && $_SESSION['success'] != null && $_SESSION['success'] != "")
-        {
-                echo "<div class='success'>" . $_SESSION['success'] . "</div>";
-                unset($_SESSION['success']);
-        }
-
 
 	$form = "<form action='admin.php' method='POST'>";
 	$form .= "<input type='submit' name='clear' value='Warteschlange leeren'>";

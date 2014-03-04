@@ -71,17 +71,6 @@
 					<h1 class="page-title" itemprop="headline">Control-Panel</h1>
 				</header><!-- header end -->
 				<?php
-					if(isset($_SESSION['error']) && $_SESSION['error'] != null && $_SESSION['error'] != "")
-					{
-						echo "<div class='error'>" . $_SESSION['error'] . "</div>";
-						unset($_SESSION['error']);
-					}
-					if(isset($_SESSION['success']) && $_SESSION['success'] != null && $_SESSION['success'] != "")
-					{
-						echo "<div class='success'>" . $_SESSION['success'] . "</div>";
-						unset($_SESSION['success']);
-					}
-					
 					$dir    = 'admin';
 					$files = array_diff(scandir($dir), array('..', '.'));
 					
