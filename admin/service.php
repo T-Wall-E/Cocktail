@@ -25,6 +25,9 @@
 				$_SESSION['success'] .= $ele;
 				$_SESSION['success'] .= "</br>";
 			}
+			
+			// 10 Sekunden warten, bis der Dienst komplett gestartet ist
+			sleep(10);
 
 			// Temp-Datei anlegen um den Dienst zu starten (Dateien die nicht auf .cocktail enden, werden vom Dienst gelöscht
 			$tmpFilename = $_SERVER["DOCUMENT_ROOT"] ."/Cocktail/queue/" . "temp.tmp";
