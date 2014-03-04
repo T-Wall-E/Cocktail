@@ -23,12 +23,13 @@
 			foreach($CocktailStartOutput as $ele)
 			{
 				$_SESSION['success'] .= $ele;
+				$_SESSION['success'] .= "</br>";
 			}
 
 			// Temp-Datei anlegen um den Dienst zu starten (Dateien die nicht auf .cocktail enden, werden vom Dienst gelöscht
-			$tmpFilename = "temp.tmp";
+			$tmpFilename = $_SERVER["DOCUMENT_ROOT"] ."/Cocktail/queue/" . "temp.tmp";
 			if (!$handle = fopen($tmpFilename, "w")) {
-				$errors[] = "Kann die Datei $tmpFilename nicht öffnen";
+				$errors[] = "Kann die Datei $tmpFilename nicht &ouml;ffnen";
 				$_SESSION['error'] = concatArr($errors);
 				header('location: ' . $_POST['redirect']);
 			}
@@ -47,11 +48,12 @@
 		exec('sudo /var/sudoWebScript.sh cocktailstop', $CocktailStopOutput, $error);
         if(count($CocktailStopOutput) > 0)
         {
-                $_SESSION['success'] = "";
-                foreach($CocktailStopOutput as $ele)
-                {
-                        $_SESSION['success'] .= $ele;
-                }
+			$_SESSION['success'] = "";
+			foreach($CocktailStopOutput as $ele)
+			{
+				$_SESSION['success'] .= $ele;
+				$_SESSION['success'] .= "</br>";
+			}
         }
 	}
 	
@@ -62,19 +64,21 @@
 		exec('sudo /var/sudoWebScript.sh cocktailstop', $output, $error);
         if(count($output) > 0)
         {
-                foreach($output as $ele)
-                {
-                        $_SESSION['success'] .= $ele;
-                }
+			foreach($output as $ele)
+			{
+				$_SESSION['success'] .= $ele;
+				$_SESSION['success'] .= "</br>";
+			}
         }
 
 		exec('sudo /var/sudoWebScript.sh cocktailstart', $output, $error);
         if(count($output) > 0)
         {
-                foreach($output as $ele)
-                {
-                        $_SESSION['success'] .= $ele;
-                }
+			foreach($output as $ele)
+			{
+				$_SESSION['success'] .= $ele;
+				$_SESSION['success'] .= "</br>";
+			}
         }
 	}
 
