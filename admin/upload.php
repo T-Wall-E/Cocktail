@@ -104,7 +104,7 @@
 	$rules .= "Als Missbrauch gemeldete Bilder werden umgehend vom Seitenbetreiber gelöscht";
 	$rules .= "</li>";
 	$rules .= "<li>";
-	$rules .= "Aus rechtlichen Gr&uuml;nden wird ihre IP-Adresse: '" . $client_ip . "' mitgespeichert. (§113a TKG)";
+	$rules .= "Aus rechtlichen Gr&uuml;nden wird ihre IP-Adresse: '" . $client_ip . "' mitgespeichert. (&sect;113a TKG)";
 	$rules .= "</li>";
 	$rules .= "</ul>";
 	
