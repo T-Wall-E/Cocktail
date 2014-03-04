@@ -28,18 +28,16 @@
 
 			// Temp-Datei anlegen um den Dienst zu starten (Dateien die nicht auf .cocktail enden, werden vom Dienst gelöscht
 			$tmpFilename = $_SERVER["DOCUMENT_ROOT"] ."/Cocktail/queue/" . "temp.tmp";
-			if (!$handle = fopen($tmpFilename, "w")) {
+			if (!$tmpFileHandle = fopen($tmpFilename, "w")) {
 				$errors[] = "Kann die Datei $tmpFilename nicht &ouml;ffnen";
 				$_SESSION['error'] = concatArr($errors);
-				header('location: ' . $_POST['redirect']);
 			}
-			if (!fwrite($handle, $entry)) {
+			if (!fwrite($tmpFileHandle, $entry)) {
 				$errors[] = "Kann in die Datei $tmpFilename nicht schreiben";
 				$_SESSION['error'] = concatArr($errors);
-				header('location: ' . $_POST['redirect']);
 			}
 			
-			fclose($handle);
+			fclose($tmpFileHandle);
         }
 	}
 	
