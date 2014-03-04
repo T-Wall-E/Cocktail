@@ -32,7 +32,7 @@
 				$errors[] = "Kann die Datei $tmpFilename nicht &ouml;ffnen";
 				$_SESSION['error'] = concatArr($errors);
 			}
-			if (!fwrite($tmpFileHandle, $entry)) {
+			if (!fwrite($tmpFileHandle, "temp")) {
 				$errors[] = "Kann in die Datei $tmpFilename nicht schreiben";
 				$_SESSION['error'] = concatArr($errors);
 			}
