@@ -73,11 +73,19 @@
 				<?php
 					$dir    = 'admin';
 					$files = array_diff(scandir($dir), array('..', '.'));
-					
-					foreach ($files as $value)
+					if(isset($_SESSION['GID']))
 					{
-						include_once $dir . "/" . $value;
-						echo "<hr>";
+						switch($_SESSION['GID'])
+						{
+							case 1:
+							case 2:
+								foreach ($files as $value)
+								{
+									include_once $dir . "/" . $value;
+									echo "<hr>";
+								}
+								break;
+						}
 					}
 				?>
 			</article><!-- .post end -->
