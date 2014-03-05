@@ -19,8 +19,8 @@ if(isset($_SESSION['GID']))
 						$_SESSION['success'] .= "</br>";
 					}
 					
-					// 10 Sekunden warten, bis der Dienst komplett gestartet ist
-					sleep(10);
+					// 20 Sekunden warten, bis der Dienst komplett gestartet ist
+					sleep(20);
 
 					// Temp-Datei anlegen um den Dienst zu starten (Dateien die nicht auf .cocktail enden, werden vom Dienst gelöscht
 					$tmpFilename = $_SERVER["DOCUMENT_ROOT"] ."/Cocktail/queue/" . "temp.tmp";
@@ -73,6 +73,20 @@ if(isset($_SESSION['GID']))
 						$_SESSION['success'] .= $ele;
 						$_SESSION['success'] .= "</br>";
 					}
+				}
+				
+				// 20 Sekunden warten, bis der Dienst komplett gestartet ist
+				sleep(20);
+				
+				// Temp-Datei anlegen um den Dienst zu starten (Dateien die nicht auf .cocktail enden, werden vom Dienst gelöscht
+				$tmpFilename = $_SERVER["DOCUMENT_ROOT"] ."/Cocktail/queue/" . "temp.tmp";
+				if (!$tmpFileHandle = fopen($tmpFilename, "w")) {
+					$errors[] = "Kann die Datei $tmpFilename nicht &ouml;ffnen";
+					$_SESSION['error'] = concatArr($errors);
+				}
+				if (!fwrite($tmpFileHandle, "temp")) {
+					$errors[] = "Kann in die Datei $tmpFilename nicht schreiben";
+					$_SESSION['error'] = concatArr($errors);
 				}
 			}
 			
