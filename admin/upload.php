@@ -33,7 +33,7 @@ if(isset($_SESSION['GID']))
 				|| ($_FILES["file"]["type"] == "image/pjpeg")
 				|| ($_FILES["file"]["type"] == "image/x-png")
 				|| ($_FILES["file"]["type"] == "image/png"))
-				&& ($_FILES["file"]["size"] < 200000)
+				&& ($_FILES["file"]["size"] < $CONST_MAX_IMAGE_UPLOAD_SIZE)
 				&& in_array($extension, $allowedExts))
 				{
 					if ($_FILES["file"]["error"] > 0)
@@ -46,8 +46,11 @@ if(isset($_SESSION['GID']))
 						$_SESSION['info'] .= "Type: " . $_FILES["file"]["type"] . "<br>";
 						$_SESSION['info'] .= "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
 						$_SESSION['info'] .= "Temp file: " . $_FILES["file"]["tmp_name"] . "<br>";
-
-						if (file_exists($uploadDir . $_FILES["file"]["name"]))
+						
+						$imagePath = $uploadDir . $_FILES["file"]["name"];
+						$imagePath_TMP = $uploadDir . "_TMP_" . $_FILES["file"]["name"];
+						
+						if (file_exists($imagePath))
 						{
 							$errors[] = $_FILES["file"]["name"] . " already exists. ";
 						}
@@ -57,7 +60,7 @@ if(isset($_SESSION['GID']))
 							$sqlImageIP = "INSERT INTO imageip "
 											. "(Dateiname, IP, UID) "
 											. "VALUES "
-											. "('" . mysql_real_escape_string($uploadDir. $_FILES["file"]["name"]) . "', '" . $client_ip . "', " . $_SESSION['UID'] . ")";
+											. "('" . mysql_real_escape_string($imagePath) . "', '" . $client_ip . "', " . $_SESSION['UID'] . ")";
 							
 							$resultSqlImageIP = mysql_query($sqlImageIP);
 							if($resultSqlImageIP)
@@ -69,8 +72,17 @@ if(isset($_SESSION['GID']))
 								$errors[]  = mysql_error();			
 							}
 							
-							move_uploaded_file($_FILES["file"]["tmp_name"], $uploadDir. $_FILES["file"]["name"]);
-							$_SESSION['success'] .=  "Stored in: " . $uploadDir . $_FILES["file"]["name"];
+							move_uploaded_file($_FILES["file"]["tmp_name"], $imagePath_TMP);
+							if(resizeImage($imagePath_TMP, $imagePath, $CONST_MAX_IMAGE_COCKTAIL_SIZE))
+							{
+								unlink($imagePath_TMP);
+								$_SESSION['success'] .=  "Stored in: " . $imagePath;
+							}
+							else
+							{
+								$errors[] = $imagePath_TMP . " konnte nicht verkleinert werden";
+							}
+							
 						}
 					}
 				}
