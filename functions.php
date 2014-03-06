@@ -399,59 +399,85 @@ function checkForSQLInjectionWithRedirect($val, $location)
 	$image_aspectratio = $image_width_old / $image_height_old; 
 
 	if ($scale_mode == 0) { 
-	$scale_mode = ($image_aspectratio > 1 ? -1 : -2); 
+		$scale_mode = ($image_aspectratio > 1 ? -1 : -2); 
 	} elseif ($scale_mode == 1) { 
-	$scale_mode = ($image_aspectratio > 1 ? -2 : -1); 
+		$scale_mode = ($image_aspectratio > 1 ? -2 : -1); 
 	} 
 
 	if ($scale_mode == -1) { 
-	$image_width_new = $image_dimension; 
-	$image_height_new = round($image_dimension / $image_aspectratio); 
+		$image_width_new = $image_dimension; 
+		$image_height_new = round($image_dimension / $image_aspectratio); 
 	} elseif ($scale_mode == -2) { 
-	$image_height_new = $image_dimension; 
-	$image_width_new = round($image_dimension * $image_aspectratio); 
+		$image_height_new = $image_dimension; 
+		$image_width_new = round($image_dimension * $image_aspectratio); 
 	} else { 
-	return false; 
+		return false; 
 	} 
 
 	switch ($image_filetype) { 
-	case 1: 
-	$image_old = imagecreatefromgif($filepath_old); 
-	$image_new = imagecreate($image_width_new, $image_height_new); 
-	imagecopyresampled($image_new, $image_old, 0, 0, 0, 0, $image_width_new, $image_height_new, $image_width_old, $image_height_old); 
-	imagegif($image_new, $filepath_new); 
-	break; 
+		case 1: 
+			$image_old = imagecreatefromgif($filepath_old); 
+			$image_new = imagecreate($image_width_new, $image_height_new); 
+			imagecopyresampled($image_new, $image_old, 0, 0, 0, 0, $image_width_new, $image_height_new, $image_width_old, $image_height_old); 
+			imagegif($image_new, $filepath_new); 
+		break; 
 
-	case 2: 
-	$image_old = imagecreatefromjpeg($filepath_old); 
-	$image_new = imagecreatetruecolor($image_width_new, $image_height_new); 
-	imagecopyresampled($image_new, $image_old, 0, 0, 0, 0, $image_width_new, $image_height_new, $image_width_old, $image_height_old); 
-	imagejpeg($image_new, $filepath_new); 
-	break; 
+		case 2: 
+			$image_old = imagecreatefromjpeg($filepath_old); 
+			$image_new = imagecreatetruecolor($image_width_new, $image_height_new); 
+			imagecopyresampled($image_new, $image_old, 0, 0, 0, 0, $image_width_new, $image_height_new, $image_width_old, $image_height_old); 
+			imagejpeg($image_new, $filepath_new); 
+		break; 
 
-	case 3: 
-	$image_old = imagecreatefrompng($filepath_old); 
-	$image_colordepth = imagecolorstotal($image_old); 
+		case 3: 
+			$image_old = imagecreatefrompng($filepath_old); 
+			$image_colordepth = imagecolorstotal($image_old); 
 
-	if ($image_colordepth == 0 || $image_colordepth > 255) { 
-	 $image_new = imagecreatetruecolor($image_width_new, $image_height_new); 
-	} else { 
-	 $image_new = imagecreate($image_width_new, $image_height_new); 
-	} 
+			if ($image_colordepth == 0 || $image_colordepth > 255) { 
+			 $image_new = imagecreatetruecolor($image_width_new, $image_height_new); 
+			} else { 
+			 $image_new = imagecreate($image_width_new, $image_height_new); 
+			} 
 
-	imagealphablending($image_new, false); 
-	imagecopyresampled($image_new, $image_old, 0, 0, 0, 0, $image_width_new, $image_height_new, $image_width_old, $image_height_old); 
-	imagesavealpha($image_new, true); 
-	imagepng($image_new, $filepath_new); 
-	break; 
+			imagealphablending($image_new, false); 
+			imagecopyresampled($image_new, $image_old, 0, 0, 0, 0, $image_width_new, $image_height_new, $image_width_old, $image_height_old); 
+			imagesavealpha($image_new, true); 
+			imagepng($image_new, $filepath_new); 
+		break; 
 
-	default: 
-	return false; 
+		default: 
+			return false; 
 	} 
 
 	imagedestroy($image_old); 
 	imagedestroy($image_new); 
 	return true; 
- } 
+ }
+ 
+ function setWatermark($pathToImage, $size)
+ {
+	include_once 'constants.php';
+	// Wasserzeichen und Foto laden
+	$tmp_Watermark = "_tmp_watermark.png";
+	resizeImage("watermark.png", $tmp_Watermark, $size);
+	$stamp = imagecreatefrompng($tmp_Watermark);
+	$im = imagecreatefromjpeg($pathToImage);
+
+	// Ränder für Wasserzeichen festlegen, dessen Höhe und Breite bestimmen 
+	$marge_right = 10;
+	$marge_bottom = 10;
+	$sx = imagesx($stamp);
+	$sy = imagesy($stamp);
+	 
+	// Wasserzeichen auf das Foto kopieren, die Position berechnet sich dabei aus
+	// den Rändern und der Bildbreite
+	imagecopy($im, $stamp, imagesx($im) - $sx - $marge_right, imagesy($im) - $sy - $marge_bottom, 0, 0, imagesx($stamp), imagesy($stamp));
+
+	// Ausgeben und aufräumen
+	//header('Content-type: image/png');
+	imagepng($im, $pathToImage);
+	imagedestroy($im);
+	unlink($tmp_Watermark);
+}
 
 ?>

@@ -75,6 +75,7 @@ if(isset($_SESSION['GID']))
 							move_uploaded_file($_FILES["file"]["tmp_name"], $imagePath_TMP);
 							if(resizeImage($imagePath_TMP, $imagePath, $CONST_MAX_IMAGE_COCKTAIL_SIZE))
 							{
+								setWatermark($imagePath, $CONST_MAX_IMAGE_COCKTAIL_SIZE / 5);
 								unlink($imagePath_TMP);
 								$_SESSION['success'] .=  "Stored in: " . $imagePath;
 							}
