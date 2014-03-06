@@ -11,14 +11,16 @@
 		
 		checkForSQLInjectionWithRedirect($_POST['name'], "addIngredient.php");
 		checkForSQLInjectionWithRedirect($_POST['unit'], "addIngredient.php");
+		checkForSQLInjectionWithRedirect($_POST['vol'], "addIngredient.php");
 	
 		$name=$_POST['name'];
 		$unitID=$_POST['unit'];
+		$vol = $_POST['vol'];
 		
 		$errors = array();
 		
-		$sqlInsertIngredient = "INSERT INTO `ingredients` (Name, UID) " .
-							"VALUES ('" . $name . "', '" . $unitID . "')";
+		$sqlInsertIngredient = "INSERT INTO `ingredients` (Name, UID, vol) " .
+							"VALUES ('" . $name . "', '" . $unitID . "', " . $vol . ")";
 							
 		$resultInsertIngredient = mysql_query($sqlInsertIngredient);
 		if(!$resultInsertIngredient)
@@ -66,7 +68,7 @@
 	
 	function getIngredientAddForm()
 	{
-		$result = "<form action='addIngredient.php' method='POST'>";
+		$result = "<form name='newIngForm' action='addIngredient.php' method='POST' onsubmit='return chkFormular()'>";
 		$result .= "<table>";
 		$result .= "<tr>";
 		$result .= "<td>";
@@ -78,10 +80,18 @@
 		$result .= "</tr>";
 		$result .= "<tr>";
 		$result .= "<td>";
-		$result .= "Zutat";
+		$result .= "Einheit";
 		$result .= "</td>";
 		$result .= "<td>";
 		$result .= getUnitCombo();
+		$result .= "</td>";
+		$result .= "</tr>";
+		$result .= "<tr>";
+		$result .= "<td>";
+		$result .= "Volumenprozent";
+		$result .= "</td>";
+		$result .= "<td>";
+		$result .= "<input type='text' name='vol' value='0' />";
 		$result .= "</td>";
 		$result .= "</tr>";
 		$result .= "</table>";
@@ -163,6 +173,21 @@
 	</div><!-- .content end -->
 	
 	<?php include_once "footer.php" ?>
+	
+	<script type="text/javascript">
+	function chkFormular () {
+	  var chkZ = 1;
+	  for (i = 0; i < document.newIngForm.vol.value.length; ++i)
+		if (document.newIngForm.vol.value.charAt(i) < "0" ||
+			document.newIngForm.vol.value.charAt(i) > "9")
+		  chkZ = -1;
+	  if (chkZ == -1) {
+		alert("Altersangabe keine Zahl!");
+		document.newIngForm.vol.focus();
+		return false;
+	  }
+	}
+	</script>
 	
 </body>
 
