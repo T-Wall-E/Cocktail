@@ -67,11 +67,11 @@ function getHTMLCocktail($id)
 		
 		$result .= "<li>";
 		$result .= $row['Ingredient'] . " ";
+		$result .= $row['amount'] . $row['UnitToken'];
 		if($row['vol'] > 0)
 		{
-			$result .= $row['vol'] . " Vol.-% ";
+			$result .= " - " . $row['vol'] . " Vol.-%";
 		}
-		$result .= $row['amount'] . $row['UnitToken'];
 		$result .= "</li>";
 	}
 	$result .= "</ul>";
