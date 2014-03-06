@@ -9,7 +9,7 @@
 	{
 		$result = "";
 		
-		$sql = "SELECT i.name AS zutat, i.ID AS ID, u.name AS einheit, u.token AS token FROM `ingredients` i JOIN `units` u ON i.UID = u.ID ORDER BY i.name";
+		$sql = "SELECT i.name AS zutat, i.ID AS ID, i.vol AS vol, u.name AS einheit, u.token AS token FROM `ingredients` i JOIN `units` u ON i.UID = u.ID ORDER BY i.name";
 		$sqlResult = mysql_query($sql);
 		if (!$sqlResult) {
 			die('Ungültige Anfrage: ' . $sql . ' - Gesamte Abfrage: '. mysql_error());
@@ -27,6 +27,9 @@
 		$result .= "</th>";
 		$result .= "<th>";
 		$result .= "Einheit";
+		$result .= "</th>";
+		$result .= "<th>";
+		$result .= "Volumenprozent";
 		$result .= "</th>";
 		$result .= "<th>";
 		$result .= "löschen?";
@@ -48,6 +51,12 @@
 			$result .= "</td>";
 			$result .= "<td>";
 			$result .= $row['einheit'] . " (" . $row['token'] . ")";
+			$result .= "</td>";
+			$result .= "<td>";
+			if($row['vol'] > 0)
+			{
+				$result .= $row['vol'] . " Vol.-%";
+			}
 			$result .= "</td>";
 			$result .= "<td>";
 			$result .= "<a href=deleteIngredient.php?id=" . $row['ID'] . ">Löschen</a>";
