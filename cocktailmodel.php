@@ -37,7 +37,7 @@ function getHTMLCocktail($id)
 	}
 	$result .= "<p>" . $row['Description'] . "</p>";
 	
-	$sqlReceipe = "SELECT ingredients.name as Ingredient, units.name as Unit, units.token as UnitToken, amount "
+	$sqlReceipe = "SELECT ingredients.name as Ingredient, ingredients.vol as vol, units.id as UnitID, units.name as Unit, units.token as UnitToken, amount "
 							. "FROM recipes "
 							. "INNER JOIN cocktails "
 							. "ON cocktails.ID = recipes.CID "
@@ -54,13 +54,30 @@ function getHTMLCocktail($id)
 							
 	$result .= "<h3>Zutaten</h3>";
 	$result .= "<ul>";
+	
+	$gesamtMenge = 0;
+	$summeVonAlkMalMenge = 0;
 	while($row = mysql_fetch_assoc($sqlReceipeResult))
 	{
+		if($row['UnitID'] == 1)
+		{
+			$summeVonAlkMalMenge += $row['vol'] * $row['amount'];
+			$gesamtMenge += $row['amount'];
+		}
+		
 		$result .= "<li>";
-		$result .= $row['Ingredient'] . " " . $row['amount'] . $row['UnitToken'];
+		$result .= $row['Ingredient'] . " ";
+		if($row['vol'] > 0)
+		{
+			$result .= $row['vol'] . " Vol.-% ";
+		}
+		$result .= $row['amount'] . $row['UnitToken'];
 		$result .= "</li>";
 	}
 	$result .= "</ul>";
+	
+	if($gesamtMenge > 0)
+		$result .= "<p>Der Cocktail hat " . $summeVonAlkMalMenge / $gesamtMenge . " Vol.-% (Nur unter Ber&uuml;cksichtigung der Fl&uuml;ssigkeiten)</p>";
 		
 	return $result;
 }
