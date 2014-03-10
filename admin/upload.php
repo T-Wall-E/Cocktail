@@ -99,6 +99,8 @@ if(isset($_SESSION['GID']))
 			
 			include "infopanel.php";
 			
+			$hint = "<p>Bitte beachten Sie, dass das Bild auf eine Maximal-Gr&ouml;&szlig;e von " . $CONST_MAX_IMAGE_COCKTAIL_SIZE . "x" . $CONST_MAX_IMAGE_COCKTAIL_SIZE . " Pixel verkleinert wird.</p>";
+			
 			$form = '<form action="admin.php" method="post" enctype="multipart/form-data">';
 			$form .= '<label for="file">Dateiname:</label>';
 			$form .= '<input type="file" name="file" id="file"><br>';
@@ -127,6 +129,7 @@ if(isset($_SESSION['GID']))
 			$rules .= "</li>";
 			$rules .= "</ul>";
 			
+			echo $hint;
 			echo $rules;
 			echo $form;
 			
