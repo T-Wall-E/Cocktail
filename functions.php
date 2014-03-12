@@ -73,7 +73,7 @@ function getUnitsCombobox()
 
 function getUser($userId)
 {
-	$sql = "SELECT id, user, name, lastname, user_group, ava, birthdate, gender FROM `users` WHERE id = ".$userId;
+	$sql = "SELECT id, user, name, lastname, user_group, ava, birthdate, gender, weight, constitution FROM `users` WHERE id = ".$userId;
 	$sqlResult = mysql_query($sql);
 	if (!$sqlResult) {
 		die('Ungültige Anfrage: ' . $sql . mysql_error());
@@ -479,5 +479,50 @@ function checkForSQLInjectionWithRedirect($val, $location)
 	imagedestroy($im);
 	unlink($tmp_Watermark);
 }
+
+function calcBak($arrOfCID, $weight, $reduFactor, $eleminationfactor, $hours)
+{
+	$result = 0;
+	$alc = 0;
+	
+	foreach($arrOfCID as $id )
+	{
+		$sqlReceipe = "SELECT ingredients.name as Ingredient, ingredients.vol as vol, units.id as UnitID, units.name as Unit, units.token as UnitToken, amount "
+								. "FROM recipes "
+								. "INNER JOIN cocktails "
+								. "ON cocktails.ID = recipes.CID "
+								. "INNER JOIN ingredients "
+								. "ON ingredients.ID = recipes.IID "
+								. "INNER JOIN units "
+								. "ON ingredients.UID = units.ID "
+								. "WHERE cocktails.id = " . $id;
+
+		$sqlReceipeResult = mysql_query($sqlReceipe);
+		if (!$sqlReceipeResult) {
+			die('Ungültige Anfrage: ' . $sqlReceipe . mysql_error());
+		}
+	
+		$gesamtMenge = 0;
+		$summeVonAlkMalMenge = 0;
+		while($row = mysql_fetch_assoc($sqlReceipeResult))
+		{
+			if($row['UnitID'] == 1)
+			{
+				$summeVonAlkMalMenge += $row['vol'] * $row['amount'];
+				$gesamtMenge += $row['amount'];
+			}
+		}
+	
+		if($gesamtMenge > 0)
+			$alc += ($summeVonAlkMalMenge / $gesamtMenge) * 0.8;
+	}
+	
+	//die($alc . " - " . $weight . " - " . $reduFactor . " - " . $eleminationfactor . " - " . $hours);
+	
+	$result = $alc/(($weight*$reduFactor)-($eleminationfactor*$hours));
+	
+	return $result;
+}
+
 
 ?>

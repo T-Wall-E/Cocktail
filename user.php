@@ -175,6 +175,41 @@
 				
 				$overView .=  "<tr>";
 				$overView .=  "<td>";
+				$overView .=  "<strong>Gewicht</strong>";
+				$overView .=  "</td>";
+				$overView .=  "<td>";
+				$overView .=  $userArray["weight"] . "kg";
+				$overView .=  "</td>";
+				$overView .=  "</tr>";
+				
+				$overView .=  "<tr>";
+				$overView .=  "<td>";
+				$overView .=  "<strong>Konstitutionstyp</strong>";
+				$overView .=  "</td>";
+				$overView .=  "<td>";
+				switch($userArray["constitution"])
+				{
+					case -1:
+						$overView .=  "Pykniker";
+						$overView .=  "<img src='sunrise-1.0.0/img/hint.png' title='mittelgro&szlizg;, gedrungener K&ouml;rperbau, Neigung zu Fettansatz, Brustkorb unten breiter als oben, kurzer Hals und breites Gesicht.' alt='Hinweis!' />";
+						break;
+					case 0:
+						$overView .=  "Athletiker";
+						$overView .=  "<img src='sunrise-1.0.0/img/hint.png' title='kr&auml;ftiger K&ouml;rperbau, breite Schultern, oben breiter Brustkorb.' alt='Hinweis!' />";
+						break;
+					case 1:
+						$overView .=  "Astheniker / Leptosome";
+						$overView .=  "<img src='sunrise-1.0.0/img/hint.png' title='mager, zart, eng- und flachbrüstig, mit dünnen Armen und Beinen' alt='Hinweis!' />";
+						break;
+					default:
+						$overView .=  "k.A.";
+						break;
+				}
+				$overView .=  "</td>";
+				$overView .=  "</tr>";
+				
+				$overView .=  "<tr>";
+				$overView .=  "<td>";
 				$overView .=  "<strong>Geburtstag</strong>";
 				$overView .=  "</td>";
 				$overView .=  "<td>";
@@ -197,7 +232,16 @@
 				$overView .=  "</table>";
 			
 				echo $overView;
-			
+				
+				$dir    = 'user';
+				$files = array_diff(scandir($dir), array('..', '.'));
+	
+				foreach ($files as $value)
+				{
+					include_once $dir . "/" . $value;
+					echo "<hr>";
+				}	
+				
 				if($userArray['id'] == $_SESSION['UID'])
 				{
 					echo "<hr>";
@@ -267,7 +311,7 @@
 					$form .= "</form>";
 					
 					echo $form;
-				}
+				}	
 			}
 		?>
 				<script>
