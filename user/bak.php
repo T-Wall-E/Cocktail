@@ -6,15 +6,24 @@
 	
 	// Cocktails der letzten 24h
 	$arrOfCID = array();
-	$sqlLastCocktails = "SELECT cid FROM history WHERE uid = " . $userArray['id'] . " AND TIMESTAMP >= DATE_SUB( CURDATE( ) , INTERVAL 1 DAY )";
+	$sqlLastCocktails = "SELECT cid, Timestamp FROM history WHERE uid = " . $userArray['id'] . " AND TIMESTAMP >= DATE_SUB( CURDATE( ) , INTERVAL 1 DAY )";
 	$sqlResultLastCocktails = mysql_query($sqlLastCocktails);
 	if (!$sqlResultLastCocktails) {
 		die('Ungültige Anfrage: ' . $sqlLastCocktails . mysql_error());
 	}
+	$fstTimestamp;
 	while($row = mysql_fetch_assoc($sqlResultLastCocktails))
 	{
 		$arrOfCID[] = $row['cid'];
+		if(!isset($fstTimestamp))
+		{
+			$fstTimestamp = $row['Timestamp'];
+		}
 	}
+	// Time
+	$date = new \DateTime();
+	$interval = $date->diff(new \DateTime($fstTimestamp));
+	$hours = $interval->h;
 	
 	// Reduktions-Faktor
 	$reduFactor = 7;
@@ -26,9 +35,9 @@
 	$reduFactor /= 10;
 	
 	$eleminationfactor = 0.1;
-	$hours = 0;
 	
 	echo "<h3>".number_format(calcBak($arrOfCID, $userArray["weight"], $reduFactor, $eleminationfactor, $hours), 3, ",", ".") . "&permil;</h3>";
+	echo "<p>Abbau seit " . $fstTimestamp . " (" . $hours . " Stunden).</p>";
 	
 	$table = "<table>";
 	$table .= "<th>";
