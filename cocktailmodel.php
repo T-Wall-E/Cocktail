@@ -77,7 +77,7 @@ function getHTMLCocktail($id)
 	$result .= "</ul>";
 	
 	if($gesamtMenge > 0)
-		$result .= "<p>Der Cocktail hat " . $summeVonAlkMalMenge / $gesamtMenge . " Vol.-% (Nur unter Ber&uuml;cksichtigung der Fl&uuml;ssigkeiten)</p>";
+		$result .= "<p>Der Cocktail hat " . number_format($summeVonAlkMalMenge / $gesamtMenge, 2) . " Vol.-% (Nur unter Ber&uuml;cksichtigung der Fl&uuml;ssigkeiten)</p>";
 		
 	return $result;
 }
