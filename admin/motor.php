@@ -24,7 +24,9 @@ if(isset($_SESSION['GID']))
 
 			
 			// Werte aus der Datenbank auslesen und selektierte anzeigen
+			// TODO:
 			$selStepSequence = 0;
+			$selStepIntervall = 2;
 			
 			$description = "<p>Hier werden Einstellungen zum Schrittmotor vorgenommen. (Werden erst nach einem Neustart des Servuces wirksam)</p>";
 
@@ -35,16 +37,18 @@ if(isset($_SESSION['GID']))
 			for($i = 0; $i < count($stepsequences); $i++)
 			{
 				$form .= "<option";
-				$form .= $selStepSequence == $i ? " selected>" : "";
+				$form .= $selStepSequence == $i ? " selected>" : ">";
 				$form .= $stepsequences[$i] . "</option>";
 			}
 			$form .= "</select>";
+			$form .= "</p>";
 			// StepIntervall
 			$form .= "<p>Hier wird der Stepintervall festgelegt</br>";
-			$form .= "<input type='number' name='stepintervall' min='1' max='10'>";
+			$form .= "<input type='number' name='stepintervall' min='1' max='10' value='" . $selStepIntervall . ">";
+			$form .= "</p>";
 			
 			
-			$form .= "<input type='submit' name='motor_update' value='&Auml;nderungen &uuml;bernehmen'></p>";
+			$form .= "<p><input type='submit' name='motor_update' value='&Auml;nderungen &uuml;bernehmen'></p>";
 			$form .= "</form>";
 
 			echo $description;
