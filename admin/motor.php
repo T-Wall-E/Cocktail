@@ -44,10 +44,9 @@ if(isset($_SESSION['GID']))
 			$form .= "</p>";
 			// StepIntervall
 			$form .= "<p>Hier wird der Stepintervall festgelegt</br>";
-			$form .= "<input type='number' name='stepintervall' min='1' max='10' value='" . $selStepIntervall . ">";
+			$form .= "<input type='number' name='stepintervall' min='1' max='10' value='" . $selStepIntervall . "'>";
 			$form .= "</p>";
-			
-			
+			// Button
 			$form .= "<p><input type='submit' name='motor_update' value='&Auml;nderungen &uuml;bernehmen'></p>";
 			$form .= "</form>";
 
