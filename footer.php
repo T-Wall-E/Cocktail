@@ -3,7 +3,14 @@
 		<div id="inner-footer" class="clearfix"><!-- #inner-footer start -->
 			<p>
 				Status:
-				<textarea id="status" name="user_eingabe" rows="1">
+				<?php
+					$rowCount = 1;
+					if(isset($greatStatus) && $greatStatus)
+					{
+						$rowCount = 20;
+					}
+					echo "<textarea id='status' name='user_eingabe' rows='" . $rowCount . "'>";
+				?>
 				</textarea>
 			</p>
 		</div><!-- #inner-footer end -->
