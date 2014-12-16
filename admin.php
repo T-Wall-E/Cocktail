@@ -72,7 +72,7 @@
 				</header><!-- header end -->
 				<?php
 					$dir    = 'admin';
-					$files = array_diff(scandir($dir), array('..', '.'));
+					$files = array_diff(scandir($dir), array('..', '.', 'watermark.png'));
 					if(isset($_SESSION['GID']))
 					{
 						switch($_SESSION['GID'])
