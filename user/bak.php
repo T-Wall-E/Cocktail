@@ -2,9 +2,9 @@
 	include_once "functions.php";
 
 	echo "<h2>Blutalkoholkonzentration</h2>";
-	echo "<p>Bitte beachten Sie, dass Alkohol einen verantwortungsvollen Umgang erfordert und der Konsum von Alkohol Ihre Gesundheit gefährden kann! Bedenken Sie, dass Alkohol abhängig machen kann! Nehmen Sie nicht am Straßenverkehr teil, wenn Sie etwas getrunken haben!
+	echo "<p>Bitte beachten Sie, dass Alkohol einen verantwortungsvollen Umgang erfordert und der Konsum von Alkohol Ihre Gesundheit gef&auml;hrden kann! Bedenken Sie, dass Alkohol abh&auml;ngig machen kann! Nehmen Sie nicht am Stra&szlig;enverkehr teil, wenn Sie etwas getrunken haben!
 Beachten Sie die Jugendschutzvorschriften und animieren Sie keine Kinder oder Jugendliche zum Alkoholkonsum!</p>";
-	echo "<p>(Alle Angaben ohne Gewähr)</p>";
+	echo "<p>(Alle Angaben ohne Gew&auml;hr)</p>";
 	
 	// Cocktails der letzten 24h
 	$arrOfCID = array();
@@ -41,7 +41,7 @@ Beachten Sie die Jugendschutzvorschriften und animieren Sie keine Kinder oder Ju
 	echo "<h3>".number_format(calcBak($arrOfCID, $userArray["weight"], $reduFactor, $eleminationfactor, $hours), 3, ",", ".") . "&permil;</h3>";
 	echo "<p>Abbau seit " . $fstTimestamp . " (" . $hours . " Stunden).</p>";
 	
-	echo "<h4>Übersicht über verschiedene Promillebereiche</h4>";
+	echo "<h4>&Uuml;bersicht der verschiedenen Promillebereiche</h4>";
 	
 	$table = "<table>";
 	$table .= "<th>";
