@@ -2,14 +2,16 @@
 	include_once "functions.php";
 
 	echo "<h2>Blutalkoholkonzentration</h2>";
-	echo "<p>[!!!DISCLAIMER!!!]Alkohol ist b�se</p>";
+	echo "<p>Bitte beachten Sie, dass Alkohol einen verantwortungsvollen Umgang erfordert und der Konsum von Alkohol Ihre Gesundheit gefährden kann! Bedenken Sie, dass Alkohol abhängig machen kann! Nehmen Sie nicht am Straßenverkehr teil, wenn Sie etwas getrunken haben!
+Beachten Sie die Jugendschutzvorschriften und animieren Sie keine Kinder oder Jugendliche zum Alkoholkonsum!</p>";
+	echo "<p>(Alle Angaben ohne Gewähr)</p>";
 	
 	// Cocktails der letzten 24h
 	$arrOfCID = array();
 	$sqlLastCocktails = "SELECT cid, Timestamp FROM history WHERE uid = " . $userArray['id'] . " AND TIMESTAMP >= DATE_SUB( CURDATE( ) , INTERVAL 1 DAY )";
 	$sqlResultLastCocktails = mysql_query($sqlLastCocktails);
 	if (!$sqlResultLastCocktails) {
-		die('Ung�ltige Anfrage: ' . $sqlLastCocktails . mysql_error());
+		die('Ungültige Anfrage: ' . $sqlLastCocktails . mysql_error());
 	}
 	$fstTimestamp;
 	while($row = mysql_fetch_assoc($sqlResultLastCocktails))
@@ -39,15 +41,17 @@
 	echo "<h3>".number_format(calcBak($arrOfCID, $userArray["weight"], $reduFactor, $eleminationfactor, $hours), 3, ",", ".") . "&permil;</h3>";
 	echo "<p>Abbau seit " . $fstTimestamp . " (" . $hours . " Stunden).</p>";
 	
+	echo "<h4>Übersicht über verschiedene Promillebereiche</h4>";
+	
 	$table = "<table>";
 	$table .= "<th>";
 	$table .= "<tr>";
-	$table .= "<td>";
+	$table .= "<th>";
 	$table .= "Promille";
-	$table .= "</td>";
-	$table .= "<td>";
+	$table .= "</th>";
+	$table .= "<th>";
 	$table .= "Auswirkungen";
-	$table .= "</td>";
+	$table .= "</th>";
 	$table .= "</tr>";
 	
 	$table .= "<tr>";
