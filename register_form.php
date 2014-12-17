@@ -78,6 +78,6 @@ if(isRegisterAllowed())
 }
 else
 {
-	echo "<p>Zur Zeit ist die Registrierung deaktiviert. Versuchen Sie es später nochmal, oder wenden sich an die Administratoren.</p>";
+	echo "<p>Zur Zeit ist die Registrierung deaktiviert. Versuchen Sie es sp&auml;ter nochmal, oder wenden sich an die Administratoren.</p>";
 }
 ?>
