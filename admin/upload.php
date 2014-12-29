@@ -24,74 +24,76 @@ if(isset($_SESSION['GID']))
 				
 				$uploadDir = $_SERVER["DOCUMENT_ROOT"] . DIRECTORY_SEPARATOR . "Cocktail" . DIRECTORY_SEPARATOR . "images" . DIRECTORY_SEPARATOR;
 				$allowedExts = array("gif", "jpeg", "jpg", "png");
-				$temp = explode(".", $_FILES["file"]["name"]);
-				$extension = end($temp);
-				
-				if ((($_FILES["file"]["type"] == "image/gif")
-				|| ($_FILES["file"]["type"] == "image/jpeg")
-				|| ($_FILES["file"]["type"] == "image/jpg")
-				|| ($_FILES["file"]["type"] == "image/pjpeg")
-				|| ($_FILES["file"]["type"] == "image/x-png")
-				|| ($_FILES["file"]["type"] == "image/png"))
-				&& ($_FILES["file"]["size"] < $CONST_MAX_IMAGE_UPLOAD_SIZE)
-				&& in_array($extension, $allowedExts))
+				for ($i = 0; $i < count($_FILES["file"]["name"]); $i++)
 				{
-					if ($_FILES["file"]["error"] > 0)
+					$temp = explode(".", $_FILES["file"]["name"][$i]);
+					$extension = end($temp);
+					
+					if ((($_FILES["file"]["type"][$i] == "image/gif")
+					|| ($_FILES["file"]["type"][$i] == "image/jpeg")
+					|| ($_FILES["file"]["type"][$i] == "image/jpg")
+					|| ($_FILES["file"]["type"][$i] == "image/pjpeg")
+					|| ($_FILES["file"]["type"][$i] == "image/x-png")
+					|| ($_FILES["file"]["type"][$i] == "image/png"))
+					&& ($_FILES["file"]["size"][$i] < $CONST_MAX_IMAGE_UPLOAD_SIZE)
+					&& in_array($extension, $allowedExts))
 					{
-						$errors[] = "Return Code: " . $_FILES["file"]["error"] . "<br>";
-					}
-					else
-					{
-						$_SESSION['info'] = "Upload: " . $_FILES["file"]["name"] . "<br>";
-						$_SESSION['info'] .= "Type: " . $_FILES["file"]["type"] . "<br>";
-						$_SESSION['info'] .= "Size: " . ($_FILES["file"]["size"] / 1024) . " kB<br>";
-						$_SESSION['info'] .= "Temp file: " . $_FILES["file"]["tmp_name"] . "<br>";
-						
-						$imagePath = $uploadDir . $_FILES["file"]["name"];
-						$imagePath_TMP = $uploadDir . "_TMP_" . $_FILES["file"]["name"];
-						
-						if (file_exists($imagePath))
+						if ($_FILES["file"]["error"][$i] > 0)
 						{
-							$errors[] = $_FILES["file"]["name"] . " already exists. ";
+							$errors[] = "Return Code: " . $_FILES["file"]["error"][$i] . "<br>";
 						}
 						else
 						{
+							$_SESSION['info'] = "Upload: " . $_FILES["file"]["name"][$i] . "<br>";
+							$_SESSION['info'] .= "Type: " . $_FILES["file"]["type"][$i] . "<br>";
+							$_SESSION['info'] .= "Size: " . ($_FILES["file"]["size"][$i] / 1024) . " kB<br>";
+							$_SESSION['info'] .= "Temp file: " . $_FILES["file"]["tmp_name"][$i] . "<br>";
 							
-							$sqlImageIP = "INSERT INTO imageip "
-											. "(Dateiname, IP, UID) "
-											. "VALUES "
-											. "('" . mysql_real_escape_string($imagePath) . "', '" . $client_ip . "', " . $_SESSION['UID'] . ")";
+							$imagePath = $uploadDir . $_FILES["file"]["name"][$i];
+							$imagePath_TMP = $uploadDir . "_TMP_" . $_FILES["file"]["name"][$i];
 							
-							$resultSqlImageIP = mysql_query($sqlImageIP);
-							if($resultSqlImageIP)
+							if (file_exists($imagePath))
 							{
-								$_SESSION['info'] .= "Ihre IP '" . $client_ip . "' und Ihre UID: '" . $_SESSION['UID'] . "' wurde gespeichert.<br>";
+								$errors[] = $_FILES["file"]["name"][$i] . " already exists. ";
 							}
 							else
 							{
-								$errors[]  = mysql_error();			
+								
+								$sqlImageIP = "INSERT INTO imageip "
+												. "(Dateiname, IP, UID) "
+												. "VALUES "
+												. "('" . mysql_real_escape_string($imagePath) . "', '" . $client_ip . "', " . $_SESSION['UID'] . ")";
+								
+								$resultSqlImageIP = mysql_query($sqlImageIP);
+								if($resultSqlImageIP)
+								{
+									$_SESSION['info'] .= "Ihre IP '" . $client_ip . "' und Ihre UID: '" . $_SESSION['UID'] . "' wurde gespeichert.<br>";
+								}
+								else
+								{
+									$errors[]  = mysql_error();			
+								}
+								
+								move_uploaded_file($_FILES["file"]["tmp_name"][$i], $imagePath_TMP);
+								if(resizeImage($imagePath_TMP, $imagePath, $CONST_MAX_IMAGE_COCKTAIL_SIZE))
+								{
+									setWatermark($imagePath, $CONST_MAX_IMAGE_COCKTAIL_SIZE / 5);
+									unlink($imagePath_TMP);
+									$_SESSION['success'] .=  "Stored in: " . $imagePath;
+								}
+								else
+								{
+									$errors[] = $imagePath_TMP . " konnte nicht verkleinert werden";
+								}
+								
 							}
-							
-							move_uploaded_file($_FILES["file"]["tmp_name"], $imagePath_TMP);
-							if(resizeImage($imagePath_TMP, $imagePath, $CONST_MAX_IMAGE_COCKTAIL_SIZE))
-							{
-								setWatermark($imagePath, $CONST_MAX_IMAGE_COCKTAIL_SIZE / 5);
-								unlink($imagePath_TMP);
-								$_SESSION['success'] .=  "Stored in: " . $imagePath;
-							}
-							else
-							{
-								$errors[] = $imagePath_TMP . " konnte nicht verkleinert werden";
-							}
-							
 						}
 					}
+					else
+					{
+						$errors[] = "Invalid file";
+					}
 				}
-				else
-				{
-					$errors[] = "Invalid file";
-				}
-				
 				$_SESSION['error'] = concatArr($errors);
 			}
 			
@@ -103,7 +105,7 @@ if(isset($_SESSION['GID']))
 			
 			$form = '<form action="admin.php" method="post" enctype="multipart/form-data">';
 			$form .= '<label for="file">Dateiname:</label>';
-			$form .= '<input type="file" name="file" id="file"><br>';
+			$form .= '<input type="file" name="file[]" id="file" multiple="multiple"><br>';
 			$form .= '<input type="submit" name="fileSubmit" value="Submit">';
 			$form .= '</form>';
 			

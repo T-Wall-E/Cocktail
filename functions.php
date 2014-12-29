@@ -443,6 +443,30 @@ function checkForSQLInjectionWithRedirect($val, $location)
     }
   }
   
+  function imagecreatefromfile( $filename ) {
+    if (!file_exists($filename)) {
+        throw new InvalidArgumentException('File "'.$filename.'" not found.');
+    }
+    switch ( strtolower( pathinfo( $filename, PATHINFO_EXTENSION ))) {
+        case 'jpeg':
+        case 'jpg':
+            return imagecreatefromjpeg($filename);
+        break;
+
+        case 'png':
+            return imagecreatefrompng($filename);
+        break;
+
+        case 'gif':
+            return imagecreatefromgif($filename);
+        break;
+
+        default:
+            throw new InvalidArgumentException('File "'.$filename.'" is not valid jpg, png or gif image.');
+        break;
+    }
+}
+  
   function resizeImage ($filepath_old, $filepath_new, $image_dimension, $scale_mode = 0) { 
 	if (!(file_exists($filepath_old)) || file_exists($filepath_new)) return false; 
 
@@ -516,8 +540,8 @@ function checkForSQLInjectionWithRedirect($val, $location)
 	// Wasserzeichen und Foto laden
 	$tmp_Watermark = "_tmp_watermark.png";
 	resizeImage("watermark.png", $tmp_Watermark, $size);
-	$stamp = imagecreatefrompng($tmp_Watermark);
-	$im = imagecreatefromjpeg($pathToImage);
+	$stamp = imagecreatefromfile($tmp_Watermark);
+	$im = imagecreatefromfile($pathToImage);
 
 	// Ränder für Wasserzeichen festlegen, dessen Höhe und Breite bestimmen 
 	$marge_right = 10;
