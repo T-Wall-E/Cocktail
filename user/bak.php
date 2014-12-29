@@ -95,7 +95,7 @@ Beachten Sie die Jugendschutzvorschriften und animieren Sie keine Kinder oder Ju
 	$table .= "2,0 - 3,0";
 	$table .= "</td>";
 	$table .= "<td>";
-	$table .= "Bet&auml;ubungsstadium mit weiter minimiertem Reaktionsverm&ouml;gen und Verst&uml;rkung der Beeintr&auml;chtigungen";
+	$table .= "Bet&auml;ubungsstadium mit weiter minimiertem Reaktionsverm&ouml;gen und Verst&auml;rkung der Beeintr&auml;chtigungen";
 	$table .= "</td>";
 	$table .= "</tr>";
 	
